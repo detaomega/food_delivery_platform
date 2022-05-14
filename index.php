@@ -1,3 +1,23 @@
+<?php
+	session_start();
+	if ($_SESSION["TypedLogin"]) {
+		$TypedLoginACCOUNT = $_SESSION["TypedLoginACCOUNT"];
+		$TypedLoginPASSWORD = $_SESSION["TypedLoginPASSWORD"];
+		echo <<<EOT
+		<script>
+		window.onload = function(){
+			document.getElementById("Account").value = "$TypedLoginACCOUNT";
+			document.getElementById("password").value = "$TypedLoginPASSWORD";
+		};
+		</script>
+		EOT;
+	}
+	# remove all session variables 
+	session_unset();
+	# destroy the session 
+	session_destroy(); 
+	$_SESSION['Authenticated']=false;
+?>
 
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
@@ -66,19 +86,19 @@
 					
 
 					<!-- Start Sign In Form -->
-					<form action="login.php" class="fh5co-form animate-box" data-animate-effect="fadeIn">
+					<form action="login.php" method="post" class="fh5co-form animate-box" data-animate-effect="fadeIn">
 						<h2>Sign In</h2>
 						<div class="form-group">
 							<label for="Account" class="sr-only">Account</label>
-							<input type="text" class="form-control" id="Account" placeholder="Account" autocomplete="off">
+							<input type="text" class="form-control" id="Account" name="account" placeholder="Account" autocomplete="off">
 						</div>
 						<div class="form-group">
 							<label for="password" class="sr-only">Password</label>
-							<input type="password" class="form-control" id="password" placeholder="Password" autocomplete="off">
+							<input type="password" class="form-control" id="password" name="password" placeholder="Password" autocomplete="off">
 						</div>
 				
 						<div class="form-group">
-							<p>Not registered? <a href="sign-up.html">Sign Up</a> </p>
+							<p>Not registered? <a href="sign-up.php">Sign Up</a> </p>
 						</div>
 						<div class="form-group">
 							<input type="submit" value="Sign In" class="btn btn-primary">

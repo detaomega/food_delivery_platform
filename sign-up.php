@@ -18,7 +18,6 @@
 			document.getElementById("re-password").value = "$TypedREPASSWORD";
 			document.getElementById("latitude").value = "$TypedLATITUDE";
 			document.getElementById("longitude").value = "$TypedLONGITUDE";
-			console.log("$TypedPASSWORD");
 		};
 		</script>
 		EOT;

@@ -1,12 +1,12 @@
 <?php
     session_start();
-    $_SESSION["Authenticated"]=false;
-    $_SESSION["Typed"]=false;
+    $_SESSION["Authenticated"] = false;
+    $_SESSION["Typed"] = false;
 
-    $dbservername="localhost";
-    $dbname="DB_HW";
-    $dbusername="dev";
-    $dbpassword="devpasswd";//make sure permission is correctly set on phpmyadmin
+    $dbservername = "localhost";
+    $dbname = "DB_HW";
+    $dbusername = "dev";
+    $dbpassword = "devpasswd";//make sure permission is correctly set on phpmyadmin
 
     try {
         //check if variables are set
@@ -113,7 +113,7 @@
 
         //inserting into database and returning to sign in page
         $salt = strval(rand(1000, 9999));
-        $hashvalue = hash("sha256", $salt.$pwd);
+        $hashvalue = hash("sha256", $salt.$password);
         $stmt = $conn->prepare("insert into user (account, password, name, status, phone_number, wallet, position_longitude, position_latitude, salt) values (:account, :password, :name, :status, :phone_number, :wallet, :position_longitude, :position_latitude, :salt)");
         $stmt->execute(array("account" => $account, "password" => $hashvalue, "name" => $name, "status" => "normal_user", "phone_number" => $phonenumber, "wallet" => 0, "position_longitude" => $longitude, "position_latitude" => $latitude, "salt" => $salt));
         echo <<< EOT

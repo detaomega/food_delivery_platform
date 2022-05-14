@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	if ($_SESSION["TypedLogin"]) {
+	if (isset($_SESSION["TypedLogin"]) && $_SESSION["TypedLogin"]) {
 		$TypedLoginACCOUNT = $_SESSION["TypedLoginACCOUNT"];
 		$TypedLoginPASSWORD = $_SESSION["TypedLoginPASSWORD"];
 		echo <<<EOT
@@ -11,6 +11,10 @@
 		};
 		</script>
 		EOT;
+	}
+	if (isset($_SESSION['Authenticated']) && $_SESSION['Authenticated']) {
+		header("Location: nav.php");
+		exit(); 
 	}
 	# remove all session variables 
 	session_unset();

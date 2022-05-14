@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	if ($_SESSION["Typed"]) {
+	if (isset($_SESSION["Typed"]) && $_SESSION["Typed"]) {
 		$TypedNAME = $_SESSION["TypedNAME"];
 		$TypedPHONENUMBER = $_SESSION["TypedPHONENUMBER"];
 		$TypedACCOUNT = $_SESSION["TypedACCOUNT"];

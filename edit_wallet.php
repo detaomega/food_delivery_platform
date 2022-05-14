@@ -18,7 +18,7 @@
         }
 
         $value = $_POST["value"];
-        if (!preg_match('/^[\-][0-9]+$/', strval($_POST["value"]))) {
+        if (!preg_match('/^[0-9]+$/', $_POST["value"]) && !preg_match('/^[\-][0-9]+$/', $_POST["value"])) {
             throw new Exception("Please make sure the value is an integer.");
         }
         
@@ -26,6 +26,9 @@
         $stmt->execute(array("account" => $_SESSION["account"]));
         $row = $stmt->fetch();
         $value = $value + $row["wallet"];
+        if ($value < 0) {
+            throw new Exception("Not enough money.");
+        }
 
         $stmt = $conn->prepare("update user set wallet = :value where user.account = :account");
         $stmt->execute(array("value" => $value, "account" => $_SESSION["account"]));

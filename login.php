@@ -50,11 +50,10 @@
             throw new Exception("Please make sure the password only consist of English letters or numbers.");
         }
 
-        //checking if the password is correct
+        //checking if the account already exists and the password is correct
         $stmt=$conn->prepare("select account, password, salt from user where account=:account");
         $stmt->execute(array("account" => $account));
 
-        //checking if the account already exists
         if ($stmt->rowCount() == 0) {
             throw new Exception("The account does not exist. Login failed.");
         } else if ($stmt->rowCount() != 1) {

@@ -38,7 +38,8 @@
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand " href="#">db_HW</a>
+        <a class="navbar-brand " style="float: left;" href="#">Eats</a>
+        <button type="button " style="float: left; margin-top: 8px; margin-left: auto; position: absolute; right: 1%;" class=" btn btn-info " data-toggle="modal" id="signOutBtn">Sign Out</button>
       </div>
 
     </div>
@@ -468,6 +469,10 @@
     $(document).ready(function () {
       $(".nav-tabs a").click(function () {
         $(this).tab('show');
+      });
+      $("#signOutBtn").click(function () {
+        $.post("logout.php");
+        window.location.replace("index.php");
       });
       $("#locationEditBtn").click(function () {
         var latitude = $("#latitude").val(), longitude = $("#longitude").val();

@@ -101,7 +101,7 @@
                     <input type="text" class="form-control" id="value" placeholder="enter add value">
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Add</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="walletEditBtn">Add</button>
                   </div>
                 </div>
               </div>
@@ -475,7 +475,20 @@
           "latitude": latitude,
           "longitude": longitude
         };
-        $.post("edit_position.php", data, function (msg) {
+        $.post("edit_position.php", data, function(msg) {
+          msg = JSON.parse(msg);
+          if (msg.error) {
+            alert(msg.text);
+          } else {
+            console.log(msg.text);
+          }
+          window.location.reload();
+        });
+      });
+      $("#walletEditBtn").click(function () {
+        var value = $("#value").val();
+        data = { "value": value };
+        $.post("edit_wallet.php", data, function(msg) {
           msg = JSON.parse(msg);
           if (msg.error) {
             alert(msg.text);

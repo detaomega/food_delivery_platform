@@ -1,3 +1,20 @@
+<?php
+    session_start();
+    $dbservername = "localhost"; 
+    $dbname = "DB_HW"; 
+    $dbusername = "dev"; 
+    $dbpassword = "devpasswd";
+    if (!isset($_SESSION['Authenticated']) || $_SESSION['Authenticated'] != true) {
+        header("Location: index.php");
+        exit();
+    }
+
+    $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    $stmt = $conn->prepare("select * from user where account=:account");
+    $stmt->execute(array("account" => $_SESSION["account"]));
+    $row = $stmt->fetch();
+?>
 <!doctype html>
 <html lang="en">
 
@@ -21,7 +38,7 @@
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand " href="#">WebSiteName</a>
+        <a class="navbar-brand " href="#">db_HW</a>
       </div>
 
     </div>
@@ -40,7 +57,7 @@
         <h3>Profile</h3>
         <div class="row">
           <div class="col-xs-12">
-            Accouont: sherry, user, PhoneNumber: 0912345678,  location: 24.786944626633865, 120.99753981198887
+            Account: <?php echo $row["account"]; ?>, name: <?php echo $row["name"]; ?>, PhoneNumber: <?php echo $row["phone_number"]; ?>,  location: <?php echo $row["position_longitude"]; ?>, <?php echo $row["position_latitude"]; ?>
             
             <button type="button " style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal"
             data-target="#location">edit location</button>
@@ -60,7 +77,7 @@
                     <input type="text" class="form-control" id="longitude" placeholder="enter longitude">
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Edit</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="locationEditBtn">Edit</button>
                   </div>
                 </div>
               </div>
@@ -69,7 +86,7 @@
 
 
             <!--  -->
-            walletbalance: 100
+            walletbalance: <?php echo $row["wallet"]; ?>
             <!-- Modal -->
             <button type="button " style="margin-left: 5px;" class=" btn btn-info " data-toggle="modal"
               data-target="#myModal">Add value</button>
@@ -451,6 +468,22 @@
     $(document).ready(function () {
       $(".nav-tabs a").click(function () {
         $(this).tab('show');
+      });
+      $("#locationEditBtn").click(function () {
+        var latitude = $("#latitude").val(), longitude = $("#longitude").val();
+        data = { 
+          "latitude": latitude,
+          "longitude": longitude
+        };
+        $.post("edit_position.php", data, function (msg) {
+          msg = JSON.parse(msg);
+          if (msg.error) {
+            alert(msg.text);
+          } else {
+            console.log(msg.text);
+          }
+          window.location.reload();
+        });
       });
     });
   </script>

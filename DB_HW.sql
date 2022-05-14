@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2022 年 05 月 14 日 10:18
+-- 產生時間： 2022 年 05 月 14 日 10:27
 -- 伺服器版本： 10.4.21-MariaDB
 -- PHP 版本： 8.1.5
 
@@ -105,7 +105,8 @@ CREATE TABLE `user` (
   `phone_number` char(10) NOT NULL,
   `wallet` int(10) UNSIGNED NOT NULL,
   `position_longitude` double NOT NULL,
-  `position_latitude` double NOT NULL
+  `position_latitude` double NOT NULL,
+  `salt` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

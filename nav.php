@@ -279,7 +279,8 @@
         </div>
       </div>
       <div id="menu1" class="tab-pane fade">
-
+        <?php
+        if ($row["status"] == "normal_user") echo <<<EOT
         <h3> Start a business </h3>
         <div class="form-group ">
           <div class="row">
@@ -309,7 +310,8 @@
             <button type="button" class="btn btn-primary"  id="registerBtn">register</button>
           </div>
         </div>
-        <hr>
+        EOT;
+        else echo <<< EOT
         <h3>ADD</h3>
 
         <div class="form-group ">
@@ -454,6 +456,7 @@
           </div>
 
         </div>
+        EOT;?>
 
 
       </div>

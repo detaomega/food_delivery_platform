@@ -9,12 +9,12 @@
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
     
     try {
-        if (!isset($_POST["shopName"]) || !isset($_POST["shopRegister"]) || !isset($_POSR["shopLatitude"]) || !isset($_POST["shopLongitude"])) exit();
+        if (!isset($_POST["shopName"]) || !isset($_POST["shopCategory"]) || !isset($_POST["shopLatitude"]) || !isset($_POST["shopLongitude"])) exit();
         $emptyField = "";
         if (empty($_POST["shopName"])) $emptyField = $emptyField . "shop name, ";
         if (empty($_POST["shopCategory"])) $emptyField = $emptyField . "shop category, ";
         if (empty($_POST["shopLatitude"])) $emptyField = $emptyField . "latitude, ";
-        if (empty($_POST["shopLongitude"])) $emptyField = $emptyField . "longitude ";
+        if (empty($_POST["shopLongitude"])) $emptyField = $emptyField . "longitude, ";
         
         if (!empty($emptyField)) {
             $emptyField = substr($emptyField, 0, strlen($emptyField) - 2) . " ";

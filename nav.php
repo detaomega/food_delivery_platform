@@ -513,9 +513,7 @@
           "registerLongitude" : registerLongitude
         };
         console.log(data);
-        $.post("register_business.php", data, fuction(msg) {
-          
-        });
+        
       });
     });
   </script>

@@ -293,12 +293,12 @@
               <input class="form-control" id="shopCategory" placeholder="fast food" type="text" >
             </div>
             <div class="col-xs-2">
-              <label for="registerLatitude">latitude</label>
-              <input class="form-control" id="registerLatitude" placeholder="121.00028167648875" type="text" >
+              <label for="shopLatitude">latitude</label>
+              <input class="form-control" id="shopLatitude" placeholder="121.00028167648875" type="text" >
             </div>
             <div class="col-xs-2">
-              <label for="registerLongitude">longitude</label>
-              <input class="form-control" id="registerLongitude" placeholder="24.78472733371133" type="text" >
+              <label for="shopLongitude">longitude</label>
+              <input class="form-control" id="shopLongitude" placeholder="24.78472733371133" type="text" >
             </div>
           </div>
         </div>
@@ -505,15 +505,23 @@
         });
       });
       $("#registerBtn").click(function() {
-        var showName = $("#shopName").val(), shopRegister = $("#shopRegister").val(), registerLatitude = $("#registerLatitude").val(), registerLongitude = $("#registerLongitude").val();
+        var showName = $("#shopName").val(), shopCategory = $("#shopCategory").val(), shopLatitude = $("#shopLatitude").val(), shopLongitude = $("#shopLongitude").val();
         data = {
-          "shopName" : showName,
-          "shopRegister" : shopRegister,
-          "registerLatitude" : registerLatitude,
-          "registerLongitude" : registerLongitude
+          "shopName": showName,
+          "shopCategory": shopCategory,
+          "shopLatitude": shopLatitude,
+          "shopLongitude": shopLongitude
         };
         console.log(data);
-        
+        $.post("register_shop.php", data, function(msg) {
+          msg = JSON.parse(msg);
+          if (msg.error) {
+            alert(msg.text);
+            console.log(msg.text);
+          } else {
+            window.location.reload();
+          }
+        });
       });
     });
   </script>

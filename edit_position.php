@@ -22,11 +22,11 @@
         $latitude = $_POST["latitude"];
         $longitude = $_POST["longitude"];
         //latitude
-        if (!preg_match('/^[0-9\.]+$/', strval($_POST["latitude"])) || $latitude > 90.0 || $latitude < -90.0) {
+        if (!preg_match('/^-?(?:\d+|\d*\.\d+)$/', strval($_POST["latitude"])) || $latitude > 90.0 || $latitude < -90.0) {
             throw new Exception("Please make sure the latitude is a number in [-90.0, 90.0].");
         }
         //longitude
-        if (!preg_match('/^[0-9\.]+$/', strval($_POST["longitude"])) || $longitude > 180.0 || $longitude < -180.0) {
+        if (!preg_match('/^-?(?:\d+|\d*\.\d+)$/', strval($_POST["longitude"])) || $longitude > 180.0 || $longitude < -180.0) {
             throw new Exception("Please make sure the longitude is a number in [-180.0, 180.0].");
         }
         

@@ -284,20 +284,20 @@
         <div class="form-group ">
           <div class="row">
             <div class="col-xs-2">
-              <label for="ex5">shop name</label>
-              <input class="form-control" id="ex5" placeholder="macdonald" type="text" >
+              <label for="shopName">shop name</label>
+              <input class="form-control" id="shopName" placeholder="macdonald" type="text" >
             </div>
             <div class="col-xs-2">
-              <label for="ex5">shop category</label>
-              <input class="form-control" id="ex5" placeholder="fast food" type="text" >
+              <label for="shopCategory">shop category</label>
+              <input class="form-control" id="shopCategory" placeholder="fast food" type="text" >
             </div>
             <div class="col-xs-2">
-              <label for="ex6">latitude</label>
-              <input class="form-control" id="ex6" placeholder="121.00028167648875" type="text" >
+              <label for="registerLatitude">latitude</label>
+              <input class="form-control" id="registerLatitude" placeholder="121.00028167648875" type="text" >
             </div>
             <div class="col-xs-2">
-              <label for="ex8">longitude</label>
-              <input class="form-control" id="ex8" placeholder="24.78472733371133" type="text" >
+              <label for="registerLongitude">longitude</label>
+              <input class="form-control" id="registerLongitude" placeholder="24.78472733371133" type="text" >
             </div>
           </div>
         </div>
@@ -306,7 +306,7 @@
 
         <div class=" row" style=" margin-top: 25px;">
           <div class=" col-xs-3">
-            <button type="button" class="btn btn-primary"  >register</button>
+            <button type="button" class="btn btn-primary"  id="registerBtn">register</button>
           </div>
         </div>
         <hr>
@@ -491,7 +491,7 @@
       });
       $("#walletEditBtn").click(function () {
         var value = $("#value").val();
-        data = { "value": value };
+        data = { "value" : value };
         $.post("edit_wallet.php", data, function(msg) {
           msg = JSON.parse(msg);
           if (msg.error) {
@@ -499,6 +499,19 @@
           } else {
             window.location.reload();
           }
+        });
+      });
+      $("#registerBtn").click(function() {
+        var showName = $("#shopName").val(), shopRegister = $("#shopRegister").val(), registerLatitude = $("#registerLatitude").val(), registerLongitude = $("#registerLongitude").val();
+        data = {
+          "shopName" : showName,
+          "shopRegister" : shopRegister,
+          "registerLatitude" : registerLatitude,
+          "registerLongitude" : registerLongitude
+        };
+        console.log(data);
+        $.post("register_business.php", data, fuction(msg) {
+          
         });
       });
     });

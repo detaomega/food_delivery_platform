@@ -38,8 +38,8 @@
   <nav class="navbar navbar-inverse">
     <div class="container-fluid">
       <div class="navbar-header">
-        <a class="navbar-brand " style="float: left;" href="#">Eats</a>
-        <button type="button " style="float: left; margin-top: 8px; margin-left: auto; position: absolute; right: 1%;" class=" btn btn-info " data-toggle="modal" id="signOutBtn">Sign Out</button>
+        <a class="navbar-brand " href="#">Eats</a>
+        <button type="button " style="margin-top: 8px; margin-left: auto; position: absolute; right: 1%;" class=" btn btn-info " data-toggle="modal" id="signOutBtn">Sign Out</button>
       </div>
 
     </div>
@@ -485,9 +485,8 @@
           if (msg.error) {
             alert(msg.text);
           } else {
-            console.log(msg.text);
+            window.location.reload();
           }
-          window.location.reload();
         });
       });
       $("#walletEditBtn").click(function () {
@@ -498,9 +497,8 @@
           if (msg.error) {
             alert(msg.text);
           } else {
-            console.log(msg.text);
+            window.location.reload();
           }
-          window.location.reload();
         });
       });
     });

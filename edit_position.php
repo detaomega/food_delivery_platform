@@ -11,8 +11,8 @@
     try {
         if (!isset($_POST["latitude"]) || !isset($_POST["longitude"])) exit();
         $emptyField = "";
-        if (empty($_POST["latitude"])) $emptyField = $emptyField . "LATITUDE, ";
-        if (empty($_POST["longitude"])) $emptyField = $emptyField . "LONGITUDE, ";
+        if (empty($_POST["latitude"]) && $_POST["latitude"] == "") $emptyField = $emptyField . "LATITUDE, ";
+        if (empty($_POST["longitude"]) && $_POST["longitude"] == "") $emptyField = $emptyField . "LONGITUDE, ";
         
         if (!empty($emptyField)) {
             $emptyField = substr($emptyField, 0, strlen($emptyField) - 2) . " ";

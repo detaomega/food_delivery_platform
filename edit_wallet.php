@@ -11,7 +11,7 @@
     try {
         if (!isset($_POST["value"])) exit();
         $emptyField = "";
-        if (empty($_POST["value"])) $emptyField = $emptyField . "Value, ";
+        if (empty($_POST["value"]) && $_POST["value"] == "") $emptyField = $emptyField . "Value, ";
         if (!empty($emptyField)) {
             $emptyField = substr($emptyField, 0, strlen($emptyField) - 2) . " ";
             throw new Exception($emptyField . "should not be empty.");

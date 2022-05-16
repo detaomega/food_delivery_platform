@@ -38,6 +38,7 @@
                 $stmt = $conn -> prepare("select * from product where SID=:SID");
                 $stmt -> execute(array("SID" => $SID));
                 $result = $stmt -> fetchAll();
+                $cnt = 0;
                 foreach ($result as &$row) {
                     $ID = $row['ID'];
                     $name = $row['name'];
@@ -47,8 +48,7 @@
                     $picture_type = $row['picture_type'];
                     $img=$row["image"];
                     $logodata = $img;
-
-                    echo '<tr><td><img style="max-width:50%; max-height:100px" src="data:'.$picture_type.';base64,' . $picture . '"  alt="$name"/></td>';
+                    echo '<tr><td>'.$cnt.'</td><td><img style="max-width:50%; max-height:100px" src="data:'.$picture_type.';base64,' . $picture . '"  alt="$name"/></td>';
                     echo <<< EOT
                             <td>$name</td>
                             <td>$price</td>
@@ -91,6 +91,7 @@
                             </form>
                         </tr>
                     EOT;
+                    $cnt++;
                 }
                 
             ?>

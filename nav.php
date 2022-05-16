@@ -464,7 +464,7 @@
             for (var key in msg){
               if (key === "error") continue;
               console.log(msg[key].name);
-              var element = document.querySelector('#testobject')
+              var element = document.querySelector('#testobject');
               element.textContent = msg[key].name;
             }
           }

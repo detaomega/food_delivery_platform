@@ -163,7 +163,7 @@
              -->
         <h3>Search</h3>
         <div class=" row  col-xs-8">
-          <form class="form-horizontal">
+          <form class="form-horizontal" id="searchForm">
             <div class="form-group">
               <label class="control-label col-sm-1" for="Shop">Shop</label>
               <div class="col-sm-5">
@@ -405,6 +405,9 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
   <script>
     $(document).ready(function () {
+      $("#searchForm").submit(function(e) {
+          e.preventDefault();
+      });
       $(".nav-tabs a").click(function () {
         $(this).tab('show');
       });

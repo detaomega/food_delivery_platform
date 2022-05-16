@@ -302,9 +302,6 @@
             </div>
           </div>
         </div>
-
-
-
         <div class=" row" style=" margin-top: 25px;">
           <div class=" col-xs-3">
             <button type="button" class="btn btn-primary"  id="registerBtn">register</button>
@@ -313,10 +310,8 @@
         EOT;
         else echo <<< EOT
         <h3>ADD</h3>
-
         <div class="form-group ">
           <div class="row">
-
             <div class="col-xs-6">
               <label for="ex3">meal name</label>
               <input class="form-control" id="ex3" type="text">
@@ -332,22 +327,16 @@
               <input class="form-control" id="ex4" type="text">
             </div>
           </div>
-
-
           <div class="row" style=" margin-top: 25px;">
-
             <div class=" col-xs-3">
               <label for="ex12">上傳圖片</label>
               <input id="myFile" type="file" name="myFile" multiple class="file-loading">
-
             </div>
             <div class=" col-xs-3">
-
               <button style=" margin-top: 15px;" type="button" class="btn btn-primary">Add</button>
             </div>
           </div>
         </div>
-
         <div class="row">
           <div class="  col-xs-8">
             <table class="table" style=" margin-top: 15px;">
@@ -446,15 +435,11 @@
                             </div>
                           </div>
                         </div>
-
-
                   <td><button type="button" class="btn btn-danger">Delete</button></td>
                 </tr>
-
               </tbody>
             </table>
           </div>
-
         </div>
         EOT;?>
 
@@ -506,14 +491,18 @@
       });
       $("#registerBtn").click(function() {
         var showName = $("#shopName").val(), shopCategory = $("#shopCategory").val(), shopLatitude = $("#shopLatitude").val(), shopLongitude = $("#shopLongitude").val();
+        var userID = "<?php echo $row["ID"]; ?>", userPhone = "<?php echo $row["phone_number"]; ?>";
         data = {
           "shopName": showName,
           "shopCategory": shopCategory,
           "shopLatitude": shopLatitude,
-          "shopLongitude": shopLongitude
+          "shopLongitude": shopLongitude,
+          "userID": userID,
+          "userPhone": userPhone
         };
         console.log(data);
         $.post("register_shop.php", data, function(msg) {
+          console.log(msg);
           msg = JSON.parse(msg);
           if (msg.error) {
             alert(msg.text);

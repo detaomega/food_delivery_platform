@@ -197,7 +197,7 @@
                 <tr>
                   <th scope="row">1</th>
                
-                  <td id="testobject">macdonald</td>
+                  <td id="testobject" >mac</td>
                   <td>fast food</td>
                 
                   <td>near </td>
@@ -457,7 +457,9 @@
           } else {
             for (var key in msg){
               if (key === "error") continue;
-              console.log(msg[key].category);
+              console.log(msg[key].name);
+              var element = document.querySelector('#testobject')
+              element.textContent = msg[key].name;
             }
           }
         });

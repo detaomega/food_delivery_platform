@@ -14,6 +14,9 @@
     $stmt = $conn->prepare("select * from user where account=:account");
     $stmt->execute(array("account" => $_SESSION["account"]));
     $row = $stmt->fetch();
+    $stmt = $conn->prepare("select * from store where UID=:UID");
+    $stmt->execute(array("UID" => $row["ID"]));
+    $shopRow = $stmt->fetch();
 ?>
 <!doctype html>
 <html lang="en">
@@ -309,6 +312,28 @@
         </div>
         EOT;
         else echo <<< EOT
+        <h3> Your shop </h3>
+        <div class="form-group ">
+          <div class="row">
+            <div class="col-xs-2">
+              <label for="shopName">shop name</label>
+              <h3> {$shopRow["name"]} </h3>
+            </div>
+            <div class="col-xs-2">
+              <label for="shopCategory">shop category</label>
+              <h3> {$shopRow["category"]} </h3>
+            </div>
+            <div class="col-xs-2">
+              <label for="shopLatitude">latitude</label>
+              <h3> {$shopRow["position_latitude"]} </h3>
+            </div>
+            <div class="col-xs-2">
+              <label for="shopLongitude">longitude</label>
+              <h3> {$shopRow["position_longitude"]} </h3>
+            </div>
+          </div>
+        </div>
+        <hr>
         <h3>ADD</h3>
         <div class="form-group ">
           <div class="row">

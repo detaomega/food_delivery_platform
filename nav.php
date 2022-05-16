@@ -508,6 +508,7 @@
             alert(msg.text);
             console.log(msg.text);
           } else {
+            alert("Successfully registered!");
             window.location.reload();
           }
         });

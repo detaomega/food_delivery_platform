@@ -48,14 +48,29 @@
         
 
         // insert the data in the sho[]
-        $stmt = $conn->prepare("insert into store (name, 
-                                                   position_longitude, 
-                                                   position_latitude, 
-                                                   phone_number, 
-                                                   category, 
-                                                   UID
-                                ) values (:shopName, :position_longitude, :position_latitude, :phone_number, :category, :UID)");
+        $stmt = $conn->prepare (
+                                "insert into store (
+                                    name, 
+                                    position_longitude, 
+                                    position_latitude, 
+                                    phone_number, 
+                                    category, 
+                                    UID
+                                ) 
+                                values (
+                                    :shopName, 
+                                    :position_longitude, 
+                                    :position_latitude, 
+                                    :phone_number, 
+                                    :category, 
+                                    :UID
+                                )"
+                            );
         $stmt = $stmt->execute(array("shopName" => $shopName, "position_longitude" => $shopLongitude, "position_latitude" => $shopLatitude, "phone_number" => $userPhone, "category" => $shopCategory, "UID" => $userID));
+  
+
+        $stmt = $conn->prepare("update user set status = :status where user.ID = :ID");
+        $stmt -> execute(array("status" => "owner", "ID" => $userID));
         
         echo json_encode(array("error" => false, "text" => "success"));
     } catch (Exception $e) {

@@ -7,7 +7,7 @@
 
     $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    
+    echo "haha"
     try {
         if (!isset($_POST["shopName"]) || !isset($_POST["shopCategory"]) || !isset($_POST["shopLatitude"]) || !isset($_POST["shopLongitude"])) exit();
         $emptyField = "";

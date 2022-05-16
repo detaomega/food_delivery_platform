@@ -54,10 +54,11 @@ CREATE TABLE `order` (
 CREATE TABLE `product` (
   `ID` int(11) UNSIGNED NOT NULL,
   `name` varchar(256) NOT NULL,
-  `image` blob NOT NULL,
+  `image` mediumblob NOT NULL,
   `price` int(10) UNSIGNED NOT NULL,
   `quantity` int(10) UNSIGNED NOT NULL,
-  `SID` int(11) UNSIGNED NOT NULL
+  `SID` int(11) UNSIGNED NOT NULL,
+  `picture_type` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

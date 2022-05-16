@@ -113,23 +113,23 @@
           </div>
 
         </div>
-
+        <hr>
         <!-- 
                 
              -->
         <h3>Search</h3>
         <div class=" row  col-xs-8">
-          <form class="form-horizontal" action="/action_page.php">
+          <form class="form-horizontal">
             <div class="form-group">
               <label class="control-label col-sm-1" for="Shop">Shop</label>
               <div class="col-sm-5">
-                <input type="text" class="form-control" placeholder="Enter Shop name">
+                <input type="text" class="form-control" placeholder="Enter Shop name" id="shopSearch">
               </div>
               <label class="control-label col-sm-1" for="distance">distance</label>
               <div class="col-sm-5">
 
 
-                <select class="form-control" id="sel1">
+                <select class="form-control" id="distSearch">
                   <option>near</option>
                   <option>medium </option>
                   <option>far</option>
@@ -144,18 +144,18 @@
               <label class="control-label col-sm-1" for="Price">Price</label>
               <div class="col-sm-2">
 
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" id="priceLow">
 
               </div>
               <label class="control-label col-sm-1" for="~">~</label>
               <div class="col-sm-2">
 
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" id="priceHigh">
 
               </div>
               <label class="control-label col-sm-1" for="Meal">Meal</label>
               <div class="col-sm-5">
-                <input type="text" list="Meals" class="form-control" id="Meal" placeholder="Enter Meal">
+                <input type="text" list="Meals" class="form-control" id="mealSearch" placeholder="Enter Meal">
                 <datalist id="Meals">
                   <option value="Hamburger">
                   <option value="coffee">
@@ -168,17 +168,18 @@
             
               
                 <div class="col-sm-5">
-                  <input type="text" list="categorys" class="form-control" id="category" placeholder="Enter shop category">
-                  <datalist id="categorys">
+                  <input type="text" list="categorys" class="form-control" id="categorySearch" placeholder="Enter shop category">
+                  <datalist id="categories">
                     <option value="fast food">
                
                   </datalist>
                 </div>
-                <button type="submit" style="margin-left: 18px;"class="btn btn-primary">Search</button>
+                <button type="submit" style="margin-left: 18px;"class="btn btn-primary" id="searchBtn">Search</button>
               
             </div>
           </form>
         </div>
+
         <div class="row">
           <div class="  col-xs-8">
             <table class="table" style=" margin-top: 15px;">
@@ -196,7 +197,7 @@
                 <tr>
                   <th scope="row">1</th>
                
-                  <td>macdonald</td>
+                  <td id="testobject">macdonald</td>
                   <td>fast food</td>
                 
                   <td>near </td>
@@ -504,7 +505,7 @@
       });
       $("#walletEditBtn").click(function () {
         var value = $("#value").val();
-        data = { "value" : value };
+        data = { "value": value };
         $.post("edit_wallet.php", data, function(msg) {
           msg = JSON.parse(msg);
           if (msg.error) {
@@ -535,6 +536,32 @@
           } else {
             alert("Successfully registered!");
             window.location.reload();
+          }
+        });
+      });
+      $("#searchBtn").click(function () {
+        var shopSearch = $("#shopSearch").val(), distSearch = $("#distSearch").val(), priceLow = $("#priceLow").val(), priceHigh = $("#priceHigh").val(), mealSearch = $("#mealSearch").val(), categorySearch = $("#categorySearch").val();
+        data = { 
+          "shopSearch": shopSearch,
+          "distSearch": distSearch,
+          "priceLow": priceLow,
+          "priceHigh": priceHigh,
+          "mealSearch": mealSearch,
+          "categorySearch": categorySearch
+        };
+        $.post("search_shop.php", data, function(msg) {
+          msg = JSON.parse(msg);
+          for (var key in msg){
+            if (key === "error" || key === "text") continue;
+            msg[key] = JSON.parse(msg[key]);
+          }
+          if (msg.error) {
+            alert(msg.text);
+          } else {
+            for (var key in msg){
+              if (key === "error") continue;
+              console.log(msg[key].category);
+            }
           }
         });
       });

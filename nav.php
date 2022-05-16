@@ -364,8 +364,14 @@
             </div>
           </div>
         <form>
-        EOT;?>
-
+     
+        EOT;
+        if ($row["status"] == "owner") {
+          include ("list_product.php");
+        }
+        ?>
+       
+      
       </div>
 
 

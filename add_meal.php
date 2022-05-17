@@ -89,7 +89,7 @@
                 "picture_type" => $imgType
             )
         );
-        header('Location: nav.php');
+        header('Location: nav.php#menu1');
 
     } catch (Exception $e) {
         $msg = $e->getMessage();

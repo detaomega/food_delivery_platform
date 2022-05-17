@@ -284,91 +284,95 @@
       </div>
       <div id="menu1" class="tab-pane fade">
         <?php
-        if ($row["status"] == "normal_user") echo <<<EOT
-        <h3> Start a business </h3>
-        <div class="form-group ">
-          <div class="row">
-            <div class="col-xs-2">
-              <label for="shopName">shop name</label>
-              <input class="form-control" id="shopName" placeholder="macdonald" type="text" >
-            </div>
-            <div class="col-xs-2">
-              <label for="shopCategory">shop category</label>
-              <input class="form-control" id="shopCategory" placeholder="fast food" type="text" >
-            </div>
-            <div class="col-xs-2">
-              <label for="shopLatitude">latitude</label>
-              <input class="form-control" id="shopLatitude" placeholder="121.00028167648875" type="text" >
-            </div>
-            <div class="col-xs-2">
-              <label for="shopLongitude">longitude</label>
-              <input class="form-control" id="shopLongitude" placeholder="24.78472733371133" type="text" >
-            </div>
-          </div>
-        </div>
-        <div class=" row" style=" margin-top: 25px;">
-          <div class=" col-xs-3">
-            <button type="button" class="btn btn-primary"  id="registerBtn">register</button>
-          </div>
-        </div>
-        EOT;
-        else echo <<< EOT
-        <h3> Your shop </h3>
-        <div class="form-group ">
-          <div class="row">
-            <div class="col-xs-2">
-              <label for="shopName">shop name</label>
-              <h3> {$shopRow["name"]} </h3>
-            </div>
-            <div class="col-xs-2">
-              <label for="shopCategory">shop category</label>
-              <h3> {$shopRow["category"]} </h3>
-            </div>
-            <div class="col-xs-2">
-              <label for="shopLatitude">latitude</label>
-              <h3> {$shopRow["position_latitude"]} </h3>
-            </div>
-            <div class="col-xs-2">
-              <label for="shopLongitude">longitude</label>
-              <h3> {$shopRow["position_longitude"]} </h3>
-            </div>
-          </div>
-        </div>
-        <hr>
-        <h3>ADD</h3>
-        <form action = "add_meal.php" Method="POST" Enctype="multipart/form-data">
+        if ($row["status"] == "normal_user") {
+          echo <<<EOT
+          <h3> Start a business </h3>
           <div class="form-group ">
             <div class="row">
-              <div class="col-xs-6">
-                <label for="ex3">meal name</label>
-                <input class="form-control" = "ex3" type="text" name = "mealName">
+              <div class="col-xs-2">
+                <label for="shopName">shop name</label>
+                <input class="form-control" id="shopName" placeholder="macdonald" type="text" >
               </div>
-            </div>
-            <div class="row" style=" margin-top: 15px;">
-              <div class="col-xs-3">
-                <label for="ex7">price</label>
-                <input class="form-control" id="ex7" type="text" name = "mealPrice">
+              <div class="col-xs-2">
+                <label for="shopCategory">shop category</label>
+                <input class="form-control" id="shopCategory" placeholder="fast food" type="text" >
               </div>
-              <div class="col-xs-3">
-                <label for="ex4">quantity</label>
-                <input class="form-control" id = "ex4" name = "mealQuantity" type="text">
+              <div class="col-xs-2">
+                <label for="shopLatitude">latitude</label>
+                <input class="form-control" id="shopLatitude" placeholder="121.00028167648875" type="text" >
               </div>
-            </div>
-            <div class="row" style=" margin-top: 25px;">
-              <div class=" col-xs-3">
-                <label for="ex12">上傳圖片</label>
-                <input type="file" name="mealPicture">
-              </div>
-              <div class=" col-xs-3">
-                <button style=" margin-top: 15px;" type="submit" class="btn btn-primary">Add</button>
+              <div class="col-xs-2">
+                <label for="shopLongitude">longitude</label>
+                <input class="form-control" id="shopLongitude" placeholder="24.78472733371133" type="text" >
               </div>
             </div>
           </div>
-        <form>
-     
-        EOT;
-        if ($row["status"] == "owner") {
-          include ("list_product.php");
+          <div class=" row" style=" margin-top: 25px;">
+            <div class=" col-xs-3">
+              <button type="button" class="btn btn-primary"  id="registerBtn">register</button>
+            </div>
+          </div>
+          EOT;
+        }
+        else {
+          echo <<< EOT
+          <h3> Your shop </h3>
+          <div class="form-group ">
+            <div class="row">
+              <div class="col-xs-2">
+                <label for="shopName">shop name</label>
+                <h3> {$shopRow["name"]} </h3>
+              </div>
+              <div class="col-xs-2">
+                <label for="shopCategory">shop category</label>
+                <h3> {$shopRow["category"]} </h3>
+              </div>
+              <div class="col-xs-2">
+                <label for="shopLatitude">latitude</label>
+                <h3> {$shopRow["position_latitude"]} </h3>
+              </div>
+              <div class="col-xs-2">
+                <label for="shopLongitude">longitude</label>
+                <h3> {$shopRow["position_longitude"]} </h3>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <h3>ADD</h3>
+  
+          
+          <form action = "add_meal.php" Method="POST">
+            <div class="form-group ">
+              <div class="row">
+                <div class="col-xs-6">
+                  <label for="ex3">meal name</label>
+                  <input class="form-control" id = "ex3" type="text" name = "mealName">
+                </div>
+              </div>
+              <div class="row" style=" margin-top: 15px;">
+                <div class="col-xs-3">
+                  <label for="ex7">price</label>
+                  <input class="form-control" id="ex7" type="text" name = "mealPrice">
+                </div>
+                <div class="col-xs-3">
+                  <label for="ex4">quantity</label>
+                  <input class="form-control" id = "ex4" name = "mealQuantity" type="text">
+                </div>
+              </div>
+              <div class="row" style=" margin-top: 25px;">
+                <div class=" col-xs-3">
+                  <label for="ex12">上傳圖片</label>
+                  <input type="file" name="mealPicture">
+                </div>
+                <div class=" col-xs-3">
+                  <button style=" margin-top: 15px;" type="submit" class="btn btn-primary">Add</button>
+                </div>
+              </div>
+            </div>
+          <form>
+          
+          EOT;
+          include ("show_product.php");
         }
         ?>
        

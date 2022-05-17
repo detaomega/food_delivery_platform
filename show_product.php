@@ -85,7 +85,7 @@
                     </div>
                   </div>
                 </div>
-                <form action="delete_product.php" method="post">
+                <form action="del_product.php" method="post">
                   <input type="hidden" name="ID" value="$ID">
                   <td><button type="submit" class="btn btn-danger">Delete</button></td>
                 </form>

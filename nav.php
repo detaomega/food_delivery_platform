@@ -14,9 +14,53 @@
     $stmt = $conn->prepare("select * from user where account=:account");
     $stmt->execute(array("account" => $_SESSION["account"]));
     $row = $stmt->fetch();
+    $userLongitude = $row["position_longitude"];
+    $userLatitude = $row["position_latitude"];
     $stmt = $conn->prepare("select * from store where UID=:UID");
     $stmt->execute(array("UID" => $row["ID"]));
     $shopRow = $stmt->fetch();
+    echo <<< EOT
+      <script>
+        window.onload = function(){
+          data = { 
+            "shopSearch": "",
+            "distSearch": "",
+            "priceLow": "",
+            "priceHigh": "",
+            "mealSearch": "",
+            "categorySearch": "",
+            "userLongitude": "$userLongitude",
+            "userLatitude": "$userLatitude"
+          };
+          console.log(data);
+          $.post("search_shop.php", data, function(msg) {
+            msg = JSON.parse(msg);
+            for (var key in msg){
+              if (key === "error" || key === "text") continue;
+              msg[key] = JSON.parse(msg[key]);
+            }
+            if (msg.error) {
+              alert(msg.text);
+            } else {
+              var cnt = 1;
+              var table = document.getElementById("shopList");
+                table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody></tbody>";
+              for (var key in msg){
+                if (key === "error") continue;
+                var row = table.insertRow(-1);
+                $(row).append('<th scope="row" id="row' + cnt.toString() + '">' + cnt.toString() + '</th>');
+                $(row).append('<td>' + msg[key].name +'</td>');
+                $(row).append('<td>' + msg[key].category +'</td>');
+                $(row).append('<td>' + msg[key].Distance +'</td>');
+                $(row).append('<td>' + msg[key].name +'</td>');
+                $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#' + msg[key].name + '">Open menu</button></td>');
+                cnt++;
+              }
+              }
+          });
+        };
+      </script>
+    EOT;
 ?>
 <!doctype html>
 <html lang="en">
@@ -119,7 +163,7 @@
              -->
         <h3>Search</h3>
         <div class=" row  col-xs-8">
-          <form class="form-horizontal">
+          <form class="form-horizontal" id="searchForm">
             <div class="form-group">
               <label class="control-label col-sm-1" for="Shop">Shop</label>
               <div class="col-sm-5">
@@ -130,6 +174,7 @@
 
 
                 <select class="form-control" id="distSearch">
+                  <option></option>
                   <option>near</option>
                   <option>medium </option>
                   <option>far</option>
@@ -182,31 +227,7 @@
 
         <div class="row">
           <div class="  col-xs-8">
-            <table class="table" style=" margin-top: 15px;">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                
-                  <th scope="col">shop name</th>
-                  <th scope="col">shop category</th>
-                  <th scope="col">Distance</th>
-               
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-               
-                  <td id="testobject" >mac</td>
-                  <td>fast food</td>
-                
-                  <td>near </td>
-                  <td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#macdonald">Open menu</button></td>
-            
-                </tr>
-           
-
-              </tbody>
+            <table class="table" style=" margin-top: 15px;" id="shopList">
             </table>
 
                 <!-- Modal -->
@@ -388,6 +409,9 @@
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
   <script>
     $(document).ready(function () {
+      $("#searchForm").submit(function(e) {
+          e.preventDefault();
+      });
       $(".nav-tabs a").click(function () {
         $(this).tab('show');
       });
@@ -448,14 +472,19 @@
       });
       $("#searchBtn").click(function () {
         var shopSearch = $("#shopSearch").val(), distSearch = $("#distSearch").val(), priceLow = $("#priceLow").val(), priceHigh = $("#priceHigh").val(), mealSearch = $("#mealSearch").val(), categorySearch = $("#categorySearch").val();
+        var userLongitude = "<?php echo $userLongitude; ?>";
+        var userLatitude = "<?php echo $userLatitude; ?>";
         data = { 
           "shopSearch": shopSearch,
           "distSearch": distSearch,
           "priceLow": priceLow,
           "priceHigh": priceHigh,
           "mealSearch": mealSearch,
-          "categorySearch": categorySearch
+          "categorySearch": categorySearch,
+          "userLongitude": userLongitude,
+          "userLatitude": userLatitude
         };
+        console.log(data);
         $.post("search_shop.php", data, function(msg) {
           msg = JSON.parse(msg);
           for (var key in msg){
@@ -465,11 +494,19 @@
           if (msg.error) {
             alert(msg.text);
           } else {
+            var cnt = 1;
+            var table = document.getElementById("shopList");
+              table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody></tbody>";
             for (var key in msg){
               if (key === "error") continue;
-              console.log(msg[key].name);
-              var element = document.querySelector('#testobject');
-              element.textContent = msg[key].name;
+              var row = table.insertRow(-1);
+              $(row).append('<th scope="row" id="row' + cnt.toString() + '">' + cnt.toString() + '</th>');
+              $(row).append('<td>' + msg[key].name +'</td>');
+              $(row).append('<td>' + msg[key].category +'</td>');
+              $(row).append('<td>' + msg[key].Distance +'</td>');
+              $(row).append('<td>' + msg[key].name +'</td>');
+              $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#' + msg[key].name + '">Open menu</button></td>');
+              cnt++;
             }
           }
         });

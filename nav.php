@@ -248,6 +248,7 @@
               <div class="col-xs-2">
                 <label for="shopName">shop name</label>
                 <input class="form-control" id="shopName" placeholder="macdonald" type="text" >
+                <div id="shopNameCheck" style="float: left; color: red;"></div>
               </div>
               <div class="col-xs-2">
                 <label for="shopCategory">shop category</label>
@@ -386,6 +387,24 @@
           }
         });
       });
+      $("#shopName").keyup(function(){
+				var input = $(this).val();
+				data = { 
+					"input": input
+				};
+				$.post("shopNameCheck.php", data, function(msg) {
+					msg = JSON.parse(msg);
+					if (msg.error) {
+						alert(msg.text);
+					} else {
+						if (msg.used) {
+							$("#shopNameCheck").html("The name is taken.");
+						} else {
+							$("#shopNameCheck").html("");
+						}
+					}
+				});
+			});
       $("#registerBtn").click(function() {
         var showName = $("#shopName").val(), shopCategory = $("#shopCategory").val(), shopLatitude = $("#shopLatitude").val(), shopLongitude = $("#shopLongitude").val();
         var userID = "<?php echo $row["ID"]; ?>", userPhone = "<?php echo $row["phone_number"]; ?>";

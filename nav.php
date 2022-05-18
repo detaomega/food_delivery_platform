@@ -253,10 +253,10 @@
           </select>
           <button id="sortBtn" >Sort</button>
         </div>
-        <div class="row">
-          <div class="  col-xs-8" id="shopModal">
-            <table class="table" style=" margin-top: 15px;" id="shopList">
-            </table>
+        <div class="row   col-xs-8">
+          <table class="table" style=" margin-top: 15px;" id="shopList">
+          </table>
+          <div class="row   col-xs-8" id="shopModal">
           </div>
 
         </div>
@@ -492,6 +492,8 @@
             var table = document.getElementById("shopList");
             table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearchList\"></tbody>";
             table = document.getElementById("shopSearchList");
+            var modal = document.getElementById("shopModal");
+            modal.innerHTML = "";
             for (var key in msg){
               if (key === "error") continue;
               var row = table.insertRow(-1);
@@ -513,7 +515,6 @@
               });
               data = { "SID": msg[key].ID };
               $.post("list_show_product.php", data, function(msg2) {
-                var modal = document.getElementById("shopModal");
                 modal.innerHTML += msg2;
               });
               cnt++;

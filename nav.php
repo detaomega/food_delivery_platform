@@ -354,7 +354,7 @@
                 </div>
               </div>
             </div>
-          <form>
+          </form>
           
           EOT;
           include ("show_product.php");

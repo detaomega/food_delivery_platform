@@ -14,7 +14,7 @@
         if (empty($_POST["mealName"])) $emptyField = $emptyField . "meal name, ";
         if (empty($_POST["mealPrice"])) $emptyField = $emptyField . "meal price, ";
         if (empty($_POST["mealQuantity"])) $emptyField = $emptyField . "meal quantity, ";
-        if (empty($_FILES["mealPicture"]["tmp_name"])) $emptyField = $emptyField . "please choose a meal picture, ";
+        if (empty($_FILES["mealPicture"]["tmp_name"])) throw new Exception("Please choose a meal picture.");
         // if (empty($_POST["shopLongitude"])) $emptyField = $emptyField . "longitude, ";
         
         $mealName = $_POST["mealName"];

@@ -4,4 +4,10 @@
 	session_unset();
 	# destroy the session 
 	session_destroy();
+    echo <<< EOT
+        <script>
+            header("Location: index.php");
+            exit(); 
+        </script>
+    EOT;
 ?>

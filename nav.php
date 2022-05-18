@@ -297,7 +297,7 @@
           <h3>ADD</h3>
   
           
-          <form action = "add_meal.php" Method="POST">
+          <form action = "add_meal.php" Method="POST" Enctype="multipart/form-data">
             <div class="form-group ">
               <div class="row">
                 <div class="col-xs-6">

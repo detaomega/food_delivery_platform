@@ -21,6 +21,7 @@
     $shopRow = $stmt->fetch();
     echo <<< EOT
       <script>
+        var shops = [];
         window.onload = function(){
           data = { 
             "shopSearch": "",
@@ -32,7 +33,6 @@
             "userLongitude": "$userLongitude",
             "userLatitude": "$userLatitude"
           };
-          console.log(data);
           $.post("search_shop.php", data, function(msg) {
             msg = JSON.parse(msg);
             for (var key in msg){
@@ -44,16 +44,27 @@
             } else {
               var cnt = 1;
               var table = document.getElementById("shopList");
-              table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearch" + msg[key].ID +"\"></tbody>";
-              table = document.getElementById("shopSearch" + msg[key].ID);
+              table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearchList\"></tbody>";
+              table = document.getElementById("shopSearchList");
               for (var key in msg){
                 if (key === "error") continue;
                 var row = table.insertRow(-1);
-                $(row).append('<th scope="row" id="row' + cnt.toString() + '">' + cnt.toString() + '</th>');
-                $(row).append('<td>' + msg[key].name +'</td>');
-                $(row).append('<td>' + msg[key].category +'</td>');
-                $(row).append('<td>' + msg[key].Distance +'</td>');
-                $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>');
+                var s = "";
+                s += '<th scope="row" id="row' + cnt.toString() + '">' + cnt.toString() + '</th>';
+                $(row).append(s);
+                s = "";
+                s += '<td>' + msg[key].name +'</td>';
+                s += '<td>' + msg[key].category +'</td>';
+                s += '<td>' + msg[key].Distance +'</td>';
+                s += '<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>';
+                $(row).append(s);
+                shops.push({
+                  "name": msg[key].name,
+                  "category": msg[key].category,
+                  "distance": msg[key].Distance,
+                  "distanceValue": msg[key].distanceValue,
+                  "text": s
+                });
                 data = { "SID": msg[key].ID };
                 $.post("list_show_product.php", data, function(msg2) {
                   var modal = document.getElementById("shopModal");
@@ -229,7 +240,19 @@
             </div>
           </form>
         </div>
-
+        <div class=" row  col-xs-8">
+          <h4>Sort by</h4>
+          <select id="sortSelect">
+            <option>name</option>
+            <option>category</option>
+            <option>distance</option>
+          </select>
+          <select id="sortSelectOption" >
+            <option>ascending</option>
+            <option>descending</option>
+          </select>
+          <button id="sortBtn" >Sort</button>
+        </div>
         <div class="row">
           <div class="  col-xs-8" id="shopModal">
             <table class="table" style=" margin-top: 15px;" id="shopList">
@@ -349,6 +372,21 @@
   <!-- Option 1: Bootstrap Bundle with Popper -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
   <script>
+    const sort_by = (field, reverse, primer) => {
+      const key = primer ?
+        function(x) {
+          return primer(x[field])
+        } :
+        function(x) {
+          return x[field]
+        };
+
+      reverse = !reverse ? 1 : -1;
+
+      return function(a, b) {
+        return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+      }
+    }
     $(document).ready(function () {
       $("#searchForm").submit(function(e) {
           e.preventDefault();
@@ -416,13 +454,10 @@
           "userID": userID,
           "userPhone": userPhone
         };
-        console.log(data);
         $.post("register_shop.php", data, function(msg) {
-          console.log(msg);
           msg = JSON.parse(msg);
           if (msg.error) {
             alert(msg.text);
-            console.log(msg.text);
           } else {
             alert("Successfully registered!");
             window.location.reload();
@@ -443,7 +478,6 @@
           "userLongitude": userLongitude,
           "userLatitude": userLatitude
         };
-        console.log(data);
         $.post("search_shop.php", data, function(msg) {
           msg = JSON.parse(msg);
           for (var key in msg){
@@ -453,18 +487,30 @@
           if (msg.error) {
             alert(msg.text);
           } else {
+            shops = [];
             var cnt = 1;
             var table = document.getElementById("shopList");
-            table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearch" + msg[key].ID +"\"></tbody>";
-            table = document.getElementById("shopSearch" + msg[key].ID);
+            table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearchList\"></tbody>";
+            table = document.getElementById("shopSearchList");
             for (var key in msg){
               if (key === "error") continue;
               var row = table.insertRow(-1);
-              $(row).append('<th scope="row" id="row' + cnt.toString() + '">' + cnt.toString() + '</th>');
-              $(row).append('<td>' + msg[key].name +'</td>');
-              $(row).append('<td>' + msg[key].category +'</td>');
-              $(row).append('<td>' + msg[key].Distance +'</td>');
-              $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>');
+              var s = "";
+              s += '<th scope="row" id="row' + cnt.toString() + '">' + cnt.toString() + '</th>';
+              $(row).append(s);
+              s = "";
+              s += '<td>' + msg[key].name +'</td>';
+              s += '<td>' + msg[key].category +'</td>';
+              s += '<td>' + msg[key].Distance +'</td>';
+              s += '<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>';
+              $(row).append(s);
+              shops.push({
+                "name": msg[key].name,
+                "category": msg[key].category,
+                "distance": msg[key].Distance,
+                "distanceValue": msg[key].distanceValue,
+                "text": s
+              });
               data = { "SID": msg[key].ID };
               $.post("list_show_product.php", data, function(msg2) {
                 var modal = document.getElementById("shopModal");
@@ -474,6 +520,22 @@
             }
           }
         });
+      });
+      $("#sortBtn").click(function () {
+        var field = $("#sortSelect").val(), reverse = $("#sortSelectOption").val() === "descending";
+        if (field === "distance") {
+          field += "Value";
+          shops.sort(sort_by(field, reverse, parseFloat));
+        } else {
+          shops.sort(sort_by(field, reverse, (a) =>  a.toUpperCase()));
+        }
+        var table = document.getElementById("shopSearchList");
+        table.innerHTML = "";
+        for (var i = 0; i < shops.length; i++) {
+          var row = table.insertRow(-1);
+          $(row).append('<th scope="row" id="row' + (i + 1).toString() + '">' + (i + 1).toString() + '</th>');
+          $(row).append(shops[i].text);
+        }
       });
     });
   </script>

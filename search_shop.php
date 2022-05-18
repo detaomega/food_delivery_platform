@@ -83,6 +83,7 @@
             $i = 0;
             while ($row = $stmt->fetch()) {
                 $dist = distance($row["position_latitude"], $row["position_longitude"], $_POST["userLatitude"], $_POST["userLongitude"], "K");
+                $row += ["distanceValue" => $dist];
                 if ($distSearch == "near" && $dist <= 2) {
                     $row += ["Distance" => "near"];
                     $res += [$i => json_encode($row)];
@@ -118,6 +119,7 @@
             $i = 0;
             while ($row = $stmt->fetch()) {
                 $dist = distance($row["position_latitude"], $row["position_longitude"], $_POST["userLatitude"], $_POST["userLongitude"], "K");
+                $row += ["distanceValue" => $dist];
                 if ($distSearch == "near" && $dist <= 2) {
                     $row += ["Distance" => "near"];
                     $res += [$i => json_encode($row)];

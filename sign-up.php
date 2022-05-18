@@ -110,6 +110,7 @@
 						<div class="form-group">
 							<label for="Account" class="sr-only">Account</label>
 							<input type="text" class="form-control" id="Account" name="account" placeholder="Account" autocomplete="off">
+							<div id="accountCheck" style="float: left; color: red;"></div>
 						</div>
 						<div class="form-group">
 							<label for="password" class="sr-only">Password</label>
@@ -155,6 +156,28 @@
 	<script src="js/jquery.waypoints.min.js"></script>
 	<!-- Main JS -->
 	<script src="js/main.js"></script>
-
+	<script>
+		$(document).ready(function(){
+			$("#Account").keyup(function(){
+				$("#accountCheck").innerHTML = "The account name is taken.";
+				var input = $(this).val();
+				data = { 
+					"input": input
+				};
+				$.post("account_check.php", data, function(msg) {
+					msg = JSON.parse(msg);
+					if (msg.error) {
+						alert(msg.text);
+					} else {
+						if (msg.used) {
+							$("#accountCheck").html("The account name is taken.");
+						} else {
+							$("#accountCheck").html("");
+						}
+					}
+				});
+			});
+		});
+	</script>
 	</body>
 </html>

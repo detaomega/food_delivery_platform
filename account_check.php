@@ -1,8 +1,5 @@
 <?php
     session_start();
-    $_SESSION["Authenticated"] = false;
-    $_SESSION["Typed"] = false;
-
     $dbservername = "localhost";
     $dbname = "DB_HW";
     $dbusername = "dev";

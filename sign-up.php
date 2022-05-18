@@ -159,7 +159,6 @@
 	<script>
 		$(document).ready(function(){
 			$("#Account").keyup(function(){
-				$("#accountCheck").innerHTML = "The account name is taken.";
 				var input = $(this).val();
 				data = { 
 					"input": input

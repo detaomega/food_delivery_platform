@@ -44,7 +44,8 @@
             } else {
               var cnt = 1;
               var table = document.getElementById("shopList");
-                table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody></tbody>";
+              table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearch" + msg[key].ID +"\"></tbody>";
+              table = document.getElementById("shopSearch" + msg[key].ID);
               for (var key in msg){
                 if (key === "error") continue;
                 var row = table.insertRow(-1);
@@ -52,7 +53,6 @@
                 $(row).append('<td>' + msg[key].name +'</td>');
                 $(row).append('<td>' + msg[key].category +'</td>');
                 $(row).append('<td>' + msg[key].Distance +'</td>');
-                $(row).append('<td>' + msg[key].name +'</td>');
                 $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>');
                 data = { "SID": msg[key].ID };
                 $.post("list_show_product.php", data, function(msg2) {
@@ -61,7 +61,7 @@
                 });
                 cnt++;
               }
-              }
+            }
           });
         };
       </script>
@@ -431,7 +431,8 @@
           } else {
             var cnt = 1;
             var table = document.getElementById("shopList");
-              table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody></tbody>";
+            table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearch" + msg[key].ID +"\"></tbody>";
+            table = document.getElementById("shopSearch" + msg[key].ID);
             for (var key in msg){
               if (key === "error") continue;
               var row = table.insertRow(-1);
@@ -439,7 +440,6 @@
               $(row).append('<td>' + msg[key].name +'</td>');
               $(row).append('<td>' + msg[key].category +'</td>');
               $(row).append('<td>' + msg[key].Distance +'</td>');
-              $(row).append('<td>' + msg[key].name +'</td>');
               $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>');
               data = { "SID": msg[key].ID };
               $.post("list_show_product.php", data, function(msg2) {

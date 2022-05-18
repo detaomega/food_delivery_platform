@@ -77,7 +77,7 @@
         $cond = substr($cond, 0, strlen($cond) - 4);
         $condp = substr($condp, 0, strlen($condp) - 4);
         if ($priceLow != "" || $priceHigh != "" || $mealSearch != "") {
-            $stmt=$conn->prepare("select store.name, category, position_longitude, position_latitude from store, product " . $condp . " group by store.name");
+            $stmt=$conn->prepare("select * from store, product " . $condp . " group by store.name");
             $stmt->execute($condArray);
             $res = ["error" => false];
             $i = 0;
@@ -112,7 +112,7 @@
             }
             echo json_encode($res) . "\n";
         } else {
-            $stmt=$conn->prepare("select store.name, category, position_longitude, position_latitude from store " . $cond . " group by store.name");
+            $stmt=$conn->prepare("select * from store " . $cond . " group by store.name");
             $stmt->execute($condArray);
             $res = ["error" => false];
             $i = 0;

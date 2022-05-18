@@ -53,7 +53,12 @@
                 $(row).append('<td>' + msg[key].category +'</td>');
                 $(row).append('<td>' + msg[key].Distance +'</td>');
                 $(row).append('<td>' + msg[key].name +'</td>');
-                $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#' + msg[key].name + '">Open menu</button></td>');
+                $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>');
+                data = { "SID": msg[key].ID };
+                $.post("list_show_product.php", data, function(msg2) {
+                  var modal = document.getElementById("shopModal");
+                  modal.innerHTML += msg2;
+                });
                 cnt++;
               }
               }
@@ -226,79 +231,9 @@
         </div>
 
         <div class="row">
-          <div class="  col-xs-8">
+          <div class="  col-xs-8" id="shopModal">
             <table class="table" style=" margin-top: 15px;" id="shopList">
             </table>
-
-                <!-- Modal -->
-  <div class="modal fade" id="macdonald"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          <h4 class="modal-title">menu</h4>
-        </div>
-        <div class="modal-body">
-         <!--  -->
-  
-         <div class="row">
-          <div class="  col-xs-12">
-            <table class="table" style=" margin-top: 15px;">
-              <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Picture</th>
-                 
-                  <th scope="col">meal name</th>
-               
-                  <th scope="col">price</th>
-                  <th scope="col">Quantity</th>
-                
-                  <th scope="col">Order check</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td><img src="Picture/1.jpg" with="50" heigh="10" alt="Hamburger"></td>
-                
-                  <td>Hamburger</td>
-                
-                  <td>80 </td>
-                  <td>20 </td>
-              
-                  <td> <input type="checkbox" id="cbox1" value="Hamburger"></td>
-                </tr>
-                <tr>
-                  <th scope="row">2</th>
-                  <td><img src="Picture/2.jpg" with="10" heigh="10" alt="coffee"></td>
-                 
-                  <td>coffee</td>
-             
-                  <td>50 </td>
-                  <td>20</td>
-              
-                  <td><input type="checkbox" id="cbox2" value="coffee"></td>
-                </tr>
-
-              </tbody>
-            </table>
-          </div>
-
-        </div>
-        
-
-         <!--  -->
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Order</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
           </div>
 
         </div>
@@ -505,7 +440,12 @@
               $(row).append('<td>' + msg[key].category +'</td>');
               $(row).append('<td>' + msg[key].Distance +'</td>');
               $(row).append('<td>' + msg[key].name +'</td>');
-              $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#' + msg[key].name + '">Open menu</button></td>');
+              $(row).append('<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>');
+              data = { "SID": msg[key].ID };
+              $.post("list_show_product.php", data, function(msg2) {
+                var modal = document.getElementById("shopModal");
+                modal.innerHTML += msg2;
+              });
               cnt++;
             }
           }

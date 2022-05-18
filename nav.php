@@ -272,25 +272,30 @@
         }
         else {
           echo <<< EOT
-          <h3> Your shop </h3>
+          <h3> Start a business </h3>
           <div class="form-group ">
             <div class="row">
               <div class="col-xs-2">
                 <label for="shopName">shop name</label>
-                <h3> {$shopRow["name"]} </h3>
+                <input class="form-control" id="shopName" placeholder="{$shopRow["name"]}" type="text" disabled>
               </div>
               <div class="col-xs-2">
                 <label for="shopCategory">shop category</label>
-                <h3> {$shopRow["category"]} </h3>
+                <input class="form-control" id="shopCategory" placeholder="{$shopRow["category"]}" type="text" disabled>
               </div>
               <div class="col-xs-2">
                 <label for="shopLatitude">latitude</label>
-                <h3> {$shopRow["position_latitude"]} </h3>
+                <input class="form-control" id="shopLatitude" placeholder="{$shopRow["position_latitude"]}" type="text" disabled>
               </div>
               <div class="col-xs-2">
                 <label for="shopLongitude">longitude</label>
-                <h3> {$shopRow["position_longitude"]} </h3>
+                <input class="form-control" id="shopLongitude" placeholder="{$shopRow["position_longitude"]}" type="text" disabled>
               </div>
+            </div>
+          </div>
+          <div class=" row" style=" margin-top: 25px;">
+            <div class=" col-xs-3">
+              <button type="button" class="btn btn-primary" disabled>register</button>
             </div>
           </div>
           <hr>

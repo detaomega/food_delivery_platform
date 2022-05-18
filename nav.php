@@ -256,11 +256,11 @@
               </div>
               <div class="col-xs-2">
                 <label for="shopLatitude">latitude</label>
-                <input class="form-control" id="shopLatitude" placeholder="121.00028167648875" type="text" >
+                <input class="form-control" id="shopLatitude" placeholder="24.78472733371133" type="text" >
               </div>
               <div class="col-xs-2">
                 <label for="shopLongitude">longitude</label>
-                <input class="form-control" id="shopLongitude" placeholder="24.78472733371133" type="text" >
+                <input class="form-control" id="shopLongitude" placeholder="121.00028167648875" type="text" >
               </div>
             </div>
           </div>

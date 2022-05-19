@@ -326,7 +326,7 @@
       $("#shopList").DataTable({
         "searching": false,
         "lengthChange": false,
-        "pageLength": '5',
+        "pageLength": 5,
         "destroy": true,
         "data": shops,
         "columns": [ //列的標題一般是從DOM中讀取（也可以使用這個屬性為表格創建列標題)

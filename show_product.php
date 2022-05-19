@@ -94,7 +94,6 @@
             EOT;
             $cnt++;
           }
-          
         ?>
       </tbody>
     </table>

@@ -19,64 +19,6 @@
     $stmt = $conn->prepare("select * from store where UID=:UID");
     $stmt->execute(array("UID" => $row["ID"]));
     $shopRow = $stmt->fetch();
-    echo <<< EOT
-      <script>
-        var shops = [];
-        window.onload = function(){
-          data = { 
-            "shopSearch": "",
-            "distSearch": "",
-            "priceLow": "",
-            "priceHigh": "",
-            "mealSearch": "",
-            "categorySearch": "",
-            "userLongitude": "$userLongitude",
-            "userLatitude": "$userLatitude"
-          };
-          $.post("search_shop.php", data, function(msg) {
-            msg = JSON.parse(msg);
-            for (var key in msg){
-              if (key === "error" || key === "text") continue;
-              msg[key] = JSON.parse(msg[key]);
-            }
-            if (msg.error) {
-              alert(msg.text);
-            } else {
-              var cnt = 1;
-              var table = document.getElementById("shopList");
-              table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearchList\"></tbody>";
-              table = document.getElementById("shopSearchList");
-              for (var key in msg){
-                if (key === "error") continue;
-                var row = table.insertRow(-1);
-                var s = "";
-                s += '<th scope="row" id="row' + cnt.toString() + '">' + cnt.toString() + '</th>';
-                $(row).append(s);
-                s = "";
-                s += '<td>' + msg[key].name +'</td>';
-                s += '<td>' + msg[key].category +'</td>';
-                s += '<td>' + msg[key].Distance +'</td>';
-                s += '<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>';
-                $(row).append(s);
-                shops.push({
-                  "name": msg[key].name,
-                  "category": msg[key].category,
-                  "distance": msg[key].Distance,
-                  "distanceValue": msg[key].distanceValue,
-                  "text": s
-                });
-                data = { "SID": msg[key].ID };
-                $.post("list_show_product.php", data, function(msg2) {
-                  var modal = document.getElementById("shopModal");
-                  modal.innerHTML += msg2;
-                });
-                cnt++;
-              }
-            }
-          });
-        };
-      </script>
-    EOT;
 ?>
 <!doctype html>
 <html lang="en">
@@ -93,6 +35,7 @@
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
   <title>Hello, world!</title>
 </head>
 
@@ -240,20 +183,9 @@
             </div>
           </form>
         </div>
-        <div class=" row  col-xs-8">
-          <h4>Sort by</h4>
-          <select id="sortSelect">
-            <option>name</option>
-            <option>category</option>
-            <option>distance</option>
-          </select>
-          <select id="sortSelectOption" >
-            <option>ascending</option>
-            <option>descending</option>
-          </select>
-          <button id="sortBtn" >Sort</button>
-        </div>
         <div class="row   col-xs-8">
+          <hr>
+          <h3>Results</h3>
           <table class="table" style=" margin-top: 15px;" id="shopList">
           </table>
           <div class="row   col-xs-8" id="shopModal">
@@ -371,6 +303,8 @@
 
   <!-- Option 1: Bootstrap Bundle with Popper -->
   <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
+  
+  <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script>
     const sort_by = (field, reverse, primer) => {
       const key = primer ?
@@ -388,6 +322,81 @@
       }
     }
     $(document).ready(function () {
+      var shops = [];
+      $("#shopList").DataTable({
+        "searching": false,
+        "lengthChange": false,
+        "pageLength": '5',
+        "destroy": true,
+        "data": shops,
+        "columns": [ //列的標題一般是從DOM中讀取（也可以使用這個屬性為表格創建列標題)
+        { data: 'number', title: "#" },
+        { data: 'name', title: "shop name" },
+        { data: 'category', title: "shop category" },
+        { data: 'distance', title: "Distance" },
+        { data: 'distanceValue', title: "distanceValue" },
+        { data: 'button', title: "" }
+        ],
+        "columnDefs": [
+          {
+            'orderData':[4], 
+            'targets': [3] 
+          },
+          {
+            "targets": [5],
+            "orderable": false
+          },
+          {
+            "targets": [4],
+            "visible": false
+          }
+        ]
+      });
+      var data = { 
+        "shopSearch": "",
+        "distSearch": "",
+        "priceLow": "",
+        "priceHigh": "",
+        "mealSearch": "",
+        "categorySearch": "",
+        "userLongitude": "<?php echo $userLongitude; ?>",
+        "userLatitude": "<?php echo $userLatitude; ?>"
+      };
+      var searchShopFunc = function(msg) {
+        msg = JSON.parse(msg);
+        for (var key in msg){
+          if (key === "error" || key === "text") continue;
+          msg[key] = JSON.parse(msg[key]);
+        }
+        if (msg.error) {
+          alert(msg.text);
+        } else {
+          shops = [];
+          var cnt = 1;
+          var modal = document.getElementById("shopModal");
+          modal.innerHTML = "";
+          for (var key in msg){
+            if (key === "error") continue;
+            var s = "";
+            s = '<td> <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>';
+            shops.push({
+              "number": cnt,
+              "name": msg[key].name,
+              "category": msg[key].category,
+              "distance": msg[key].Distance,
+              "distanceValue": msg[key].distanceValue,
+              "button": s
+            });
+            data = { "SID": msg[key].ID };
+            $.post("list_show_product.php", data, function(msg2) {
+              modal.innerHTML += msg2;
+            });
+            cnt++;
+          }
+          $('#shopList').DataTable().clear().rows.add(shops).draw();
+        }
+      }
+      $.post("search_shop.php", data, searchShopFunc);
       $("#searchForm").submit(function(e) {
           e.preventDefault();
       });
@@ -478,66 +487,9 @@
           "userLongitude": userLongitude,
           "userLatitude": userLatitude
         };
-        $.post("search_shop.php", data, function(msg) {
-          msg = JSON.parse(msg);
-          for (var key in msg){
-            if (key === "error" || key === "text") continue;
-            msg[key] = JSON.parse(msg[key]);
-          }
-          if (msg.error) {
-            alert(msg.text);
-          } else {
-            shops = [];
-            var cnt = 1;
-            var table = document.getElementById("shopList");
-            table.innerHTML = "<thead><tr><th scope="+"col"+">#</th><th scope="+"col"+">shop name</th><th scope="+"col"+">shop category</th><th scope="+"col"+">Distance</th></tr></thead><tbody id=\"shopSearchList\"></tbody>";
-            table = document.getElementById("shopSearchList");
-            var modal = document.getElementById("shopModal");
-            modal.innerHTML = "";
-            for (var key in msg){
-              if (key === "error") continue;
-              var row = table.insertRow(-1);
-              var s = "";
-              s += '<th scope="row" id="row' + cnt.toString() + '">' + cnt.toString() + '</th>';
-              $(row).append(s);
-              s = "";
-              s += '<td>' + msg[key].name +'</td>';
-              s += '<td>' + msg[key].category +'</td>';
-              s += '<td>' + msg[key].Distance +'</td>';
-              s += '<td>  <button type="button" class="btn btn-info " data-toggle="modal" data-target="#shopList' + msg[key].ID + '">Open menu</button></td>';
-              $(row).append(s);
-              shops.push({
-                "name": msg[key].name,
-                "category": msg[key].category,
-                "distance": msg[key].Distance,
-                "distanceValue": msg[key].distanceValue,
-                "text": s
-              });
-              data = { "SID": msg[key].ID };
-              $.post("list_show_product.php", data, function(msg2) {
-                modal.innerHTML += msg2;
-              });
-              cnt++;
-            }
-          }
-        });
+        $.post("search_shop.php", data, searchShopFunc);
       });
-      $("#sortBtn").click(function () {
-        var field = $("#sortSelect").val(), reverse = $("#sortSelectOption").val() === "descending";
-        if (field === "distance") {
-          field += "Value";
-          shops.sort(sort_by(field, reverse, parseFloat));
-        } else {
-          shops.sort(sort_by(field, reverse, (a) =>  a.toUpperCase()));
-        }
-        var table = document.getElementById("shopSearchList");
-        table.innerHTML = "";
-        for (var i = 0; i < shops.length; i++) {
-          var row = table.insertRow(-1);
-          $(row).append('<th scope="row" id="row' + (i + 1).toString() + '">' + (i + 1).toString() + '</th>');
-          $(row).append(shops[i].text);
-        }
-      });
+
     });
   </script>
 

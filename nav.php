@@ -55,6 +55,9 @@
     <ul class="nav nav-tabs">
       <li class="active"><a href="#home">Home</a></li>
       <li><a href="#menu1">shop</a></li>
+      <li><a href="#myOrder">MyOrder</a></li>
+      <li><a href="#shopOrder">Shop Order</a></li>
+      <li><a href="#record">Trasaction Record</a></li>
 
 
     </ul>
@@ -294,6 +297,12 @@
         ?>
        
       
+      </div>
+      <div id="myOrder" class="tab-pane fade">
+      </div>
+      <div id="shopOrder" class="tab-pane fade">
+      </div>
+      <div id="record" class="tab-pane fade">
       </div>
 
 

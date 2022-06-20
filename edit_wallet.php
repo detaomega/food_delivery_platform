@@ -18,8 +18,8 @@
         }
 
         $value = $_POST["value"];
-        if (!preg_match('/^[0-9]+$/', $_POST["value"]) && !preg_match('/^[\-][0-9]+$/', $_POST["value"])) {
-            throw new Exception("Please make sure the value is an integer.");
+        if (!preg_match('/^[0-9]+$/', $_POST["value"])) {
+            throw new Exception("Please make sure the value is a positive integer.");
         }
         
         $stmt=$conn->prepare("select wallet from user where account=:account");

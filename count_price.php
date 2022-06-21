@@ -103,6 +103,7 @@
                                         <td>$name</td>
                                         <td>$price </td>
                                         <td>$orderQuantity</td>
+                                        <input type="hidden" name="$ID" value="$orderQuantity">
                                     </tr>
         EOT;
         $cnt++;

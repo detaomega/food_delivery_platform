@@ -396,7 +396,9 @@
               "distanceValue": msg[key].distanceValue,
               "button": s
             });
-            data = { "SID": msg[key].ID };
+            data = { "SID": msg[key].ID, 
+                     "distance": msg[key].distanceValue
+            };
             $.post("list_show_product.php", data, function(msg2) {
               modal.innerHTML += msg2;
             });

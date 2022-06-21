@@ -396,8 +396,10 @@
               "distanceValue": msg[key].distanceValue,
               "button": s
             });
+            var userID = "<?php echo $row["ID"]; ?>"
             data = { "SID": msg[key].ID, 
-                     "distance": msg[key].distanceValue
+                     "distance": msg[key].distanceValue,
+                     "UID": userID
             };
             $.post("list_show_product.php", data, function(msg2) {
               modal.innerHTML += msg2;

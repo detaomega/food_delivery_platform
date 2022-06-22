@@ -19,6 +19,7 @@
     $stmt = $conn->prepare("select * from store where UID=:UID");
     $stmt->execute(array("UID" => $row["ID"]));
     $shopRow = $stmt->fetch();
+    $UID = $row["ID"];
 ?>
 <!doctype html>
 <html lang="en">
@@ -383,6 +384,7 @@
           shops = [];
           var cnt = 1;
           var modal = document.getElementById("shopModal");
+          var UID = "<?php echo $UID; ?>"
           modal.innerHTML = "";
           for (var key in msg){
             if (key === "error") continue;
@@ -396,11 +398,11 @@
               "distanceValue": msg[key].distanceValue,
               "button": s
             });
-            var userID = "<?php echo $row["ID"]; ?>"
             data = { "SID": msg[key].ID, 
                      "distance": msg[key].distanceValue,
-                     "UID": userID
+                     "UID": UID
             };
+          
             $.post("list_show_product.php", data, function(msg2) {
               modal.innerHTML += msg2;
             });

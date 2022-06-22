@@ -123,8 +123,12 @@
                         <div><label>Subtotal $$subTotal</label></div>  
                         <div><label>Delivery Fee $$deliveryFee</label></div>  
                         <div><label>Total Price $$Total</label></div>  
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Order</button>
+                        <button type="submit" class="btn btn-default" data-dismiss="modal">Order</button>
                         <input type="hidden" name="SID" value="$SID">
+                        <input type="hidden" name="total" value="$Total">
+                        <input type="hidden" name="UID" value="$UID">
+                        <input type="hidden" name="distance" value="$distance">
+                        <input type="hidden" name="mode" value="$mode">
                     </div>
                 </form>
             </div>

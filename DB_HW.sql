@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2022 年 05 月 14 日 10:27
+-- 產生時間： 2022 年 06 月 22 日 18:45
 -- 伺服器版本： 10.4.21-MariaDB
 -- PHP 版本： 8.1.5
 
@@ -36,8 +36,8 @@ CREATE TABLE `contains` (
 CREATE TABLE `order` (
   `ID` int(11) UNSIGNED NOT NULL,
   `status` varchar(256) NOT NULL,
-  `start_time` datetime NOT NULL,
-  `finish_time` datetime NOT NULL,
+  `start_time` varchar(256) NOT NULL,
+  `finish_time` varchar(256) DEFAULT NULL,
   `distance` int(10) UNSIGNED NOT NULL,
   `payment` int(10) UNSIGNED NOT NULL,
   `type` varchar(256) NOT NULL,
@@ -164,19 +164,19 @@ ALTER TABLE `user`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `order`
 --
 ALTER TABLE `order`
-  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `product`
 --
 ALTER TABLE `product`
-  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `store`
 --
 ALTER TABLE `store`
-  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- 使用資料表自動遞增(AUTO_INCREMENT) `transaction`
@@ -188,7 +188,7 @@ ALTER TABLE `transaction`
 -- 使用資料表自動遞增(AUTO_INCREMENT) `user`
 --
 ALTER TABLE `user`
-  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `ID` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- 已傾印資料表的限制式

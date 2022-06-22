@@ -5,11 +5,10 @@
     $dbusername = "dev"; 
     $dbpassword = "devpasswd";
 
-    
+    $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     try {
-        $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         // product part
         $distance = $_POST["distance"];
         $total = $_POST["total"];
@@ -18,7 +17,7 @@
         $stTime = date("Y-m-d H:i:s");
         $mode = $_POST["mode"];
         $stmt = $conn->prepare (
-            "insert into order (
+            "insert into `order` (
                 status, 
                 start_time, 
                 payment,
@@ -28,7 +27,7 @@
                 distance
             ) 
             values (
-                :status  
+                :status,  
                 :start_time, 
                 :payment, 
                 :type,
@@ -54,7 +53,7 @@
     } 
     catch (Exception $e) {
         $msg = $e->getMessage();
-        echo "<script>alert(\"$msg\"); window.location.replace(\"nav.php/\");</script>";
+        echo "<script>alert(\"$msg\"); window.location.replace(\"nav.php\");</script>";
     }
     // $stmt = $conn -> prepare("select * from product where SID=:SID");
     // $stmt -> execute(array("SID" => $SID));

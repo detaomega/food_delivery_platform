@@ -1,2 +1,7 @@
 search.php
 test.php
+.gitignore
+oldnav.php
+test.html
+Picture/
+.DS_STORE

@@ -127,7 +127,7 @@
                         <input type="hidden" name="SID" value="$SID">
                         <input type="hidden" name="total" value="$Total">
                         <input type="hidden" name="UID" value="$UID">
-                        <input type="hidden" name="distance" value="$distance">
+                        <input type="hidden" name="deliveryFee" value="$deliveryFee">
                         <input type="hidden" name="mode" value="$mode">
                     </div>
                 </form>

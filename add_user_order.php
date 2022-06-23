@@ -11,7 +11,7 @@
 
     try {
         // product part
-        $distance = $_POST["distance"];
+        $deliveryFee = $_POST["deliveryFee"];
         $total = $_POST["total"];
         $SID = $_POST["SID"];
         $UID = $_POST["UID"];
@@ -38,7 +38,7 @@
                 :type,
                 :SID,
                 :UID,
-                :distance
+                :deliveryFee
             )"
         );
         $stmt->execute(
@@ -49,7 +49,7 @@
                 "type" => $mode,
                 "SID" => $SID,
                 "UID" => $UID,
-                "distance" => $distance
+                "deliveryFee" => $deliveryFee
             )
         );
         $OID = $conn->lastInsertId();

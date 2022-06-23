@@ -444,6 +444,7 @@
           if (msg.error) {
             alert(msg.text);
           } else {
+            alert("Recharge success");
             window.location.reload();
           }
         });

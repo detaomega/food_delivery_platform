@@ -306,6 +306,7 @@
         <?php include ("shopOrderPage.php"); ?>
       </div>
       <div id="record" class="tab-pane fade">
+      <?php include ("transactionPage.php"); ?>
       </div>
     </div>
   </div>

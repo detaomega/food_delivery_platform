@@ -17,6 +17,10 @@
         $UID = $_POST["UID"];
         $stTime = date("Y-m-d H:i:s");
         $mode = $_POST["mode"];
+        $stmt=$conn->prepare("select UID from store where ID=:SID");
+        $stmt->execute(array("SID" => $SID));
+        $row = $stmt->fetch();
+        $SUID = $row["UID"];
         $stmt = $conn->prepare (
             "insert into `order` (
                 status, 
@@ -57,6 +61,13 @@
         $newValue = $userInfo["wallet"] - $total;  
         $stmt = $conn -> prepare("update user set wallet =:value where user.ID=:ID");
         $stmt -> execute(array("value" => $newValue, "ID" => $UID));
+
+        $stmt = $conn -> prepare("select wallet from user where ID=:ID");
+        $stmt -> execute(array("ID" => $SUID));
+        $userInfo = $stmt -> fetch();
+        $newValue = $userInfo["wallet"] + $total;  
+        $stmt = $conn -> prepare("update user set wallet =:value where user.ID=:ID");
+        $stmt -> execute(array("value" => $newValue, "ID" => $SUID));
         
         // add contains from OID and PID
         $stmt = $conn -> prepare("select * from product where SID=:SID");
@@ -94,6 +105,12 @@
             $stmt = $conn -> prepare("update product set quantity =:value where ID =:PID");
             $stmt -> execute(array("value" => $quantity, "PID" => $ID));
         }         
+        //transaction
+        $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`) VALUES (:type, :price, :time, :UID)");
+        $stmt->execute(array("type" => "Payment", "price" => $total, "time" => $stTime, "UID" => $UID));
+
+        $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`) VALUES (:type, :price, :time, :UID)");
+        $stmt->execute(array("type" => "Takings", "price" => $total, "time" => $stTime, "UID" => $SUID));
         echo "<script>alert(\"success!!\"); window.location.replace(\"nav.php\");</script>";
     } 
     catch (Exception $e) {

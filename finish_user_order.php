@@ -11,6 +11,7 @@
 
     try {
         $OID = $_POST["OID"];
+        $stTime = date("Y-m-d H:i:s");
         $stmt = $conn -> prepare("select * from `order` where ID=:OID");
         $stmt -> execute(array("OID" => $OID));
         $row = $stmt -> fetch();
@@ -18,8 +19,8 @@
             throw new Exception("The order is already finished or canceled.");
         }
 
-        $stmt = $conn->prepare("update `order` set status = :status where ID = :OID");
-        $stmt->execute(array("status" => "Finished", "OID" => $OID));
+        $stmt = $conn->prepare("update `order` set status = :status, finish_time = :time where ID = :OID");
+        $stmt->execute(array("status" => "Finished", "time" => $stTime, "OID" => $OID));
         echo "<script> window.location.replace(\"nav.php\");</script>";
     } 
     catch (Exception $e) {

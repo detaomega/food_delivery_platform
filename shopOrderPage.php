@@ -39,7 +39,7 @@
                     $UID = $row["ID"];
 
                     $stmt = $conn -> prepare("select ID from store where UID=:UID");
-                    $stmt -> execute(array("UID" => $UID]));
+                    $stmt -> execute(array("UID" => $UID));
                     $row = $stmt->fetch();
                     $SID = $row["ID"];
                     
@@ -119,7 +119,7 @@
                 $row = $stmt->fetch();
                 $UID = $row["ID"];
                 $stmt = $conn -> prepare("select ID from store where UID=:UID");
-                $stmt -> execute(array("UID" => $UID]));
+                $stmt -> execute(array("UID" => $UID));
                 $row = $stmt->fetch();
                 $SID = $row["ID"];
                 
@@ -186,7 +186,7 @@
                 $row = $stmt->fetch();
                 $UID = $row["ID"];
                 $stmt = $conn -> prepare("select ID from store where UID=:UID");
-                $stmt -> execute(array("UID" => $UID]));
+                $stmt -> execute(array("UID" => $UID));
                 $row = $stmt->fetch();
                 $SID = $row["ID"];
                 
@@ -254,7 +254,7 @@
                 $row = $stmt->fetch();
                 $UID = $row["ID"];
                 $stmt = $conn -> prepare("select ID from store where UID=:UID");
-                $stmt -> execute(array("UID" => $UID]));
+                $stmt -> execute(array("UID" => $UID));
                 $row = $stmt->fetch();
                 $SID = $row["ID"];
                 

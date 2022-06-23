@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2022 年 06 月 23 日 15:44
+-- 產生時間： 2022 年 06 月 23 日 19:36
 -- 伺服器版本： 10.4.21-MariaDB
 -- PHP 版本： 8.1.5
 
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `contains` (
   `OID` int(10) UNSIGNED NOT NULL,
-  `PID` int(10) UNSIGNED NOT NULL,
+  `PHID` int(10) UNSIGNED NOT NULL,
   `number` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -58,6 +58,23 @@ CREATE TABLE `product` (
   `price` int(10) UNSIGNED NOT NULL,
   `quantity` int(10) UNSIGNED NOT NULL,
   `SID` int(11) UNSIGNED NOT NULL,
+  `picture_type` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- 資料表結構 `product_history`
+--
+
+CREATE TABLE `product_history` (
+  `ID` int(11) UNSIGNED NOT NULL,
+  `name` varchar(256) NOT NULL,
+  `image` mediumblob NOT NULL,
+  `price` int(10) UNSIGNED NOT NULL,
+  `quantity` int(10) UNSIGNED NOT NULL,
+  `SID` int(11) UNSIGNED NOT NULL,
+  `PID` int(11) UNSIGNED NOT NULL,
   `picture_type` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -120,8 +137,8 @@ CREATE TABLE `user` (
 -- 資料表索引 `contains`
 --
 ALTER TABLE `contains`
-  ADD PRIMARY KEY (`OID`,`PID`),
-  ADD KEY `contains_product` (`PID`);
+  ADD PRIMARY KEY (`OID`,`PHID`),
+  ADD KEY `contains_product` (`PHID`);
 
 --
 -- 資料表索引 `order`
@@ -137,6 +154,14 @@ ALTER TABLE `order`
 ALTER TABLE `product`
   ADD PRIMARY KEY (`ID`),
   ADD KEY `product_store` (`SID`);
+
+--
+-- 資料表索引 `product_history`
+--
+ALTER TABLE `product_history`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `product_history_store` (`SID`),
+  ADD KEY `product_original` (`PID`);
 
 --
 -- 資料表索引 `store`
@@ -176,6 +201,12 @@ ALTER TABLE `product`
   MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
+-- 使用資料表自動遞增(AUTO_INCREMENT) `product_history`
+--
+ALTER TABLE `product_history`
+  MODIFY `ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- 使用資料表自動遞增(AUTO_INCREMENT) `store`
 --
 ALTER TABLE `store`
@@ -202,7 +233,7 @@ ALTER TABLE `user`
 --
 ALTER TABLE `contains`
   ADD CONSTRAINT `contains_order` FOREIGN KEY (`OID`) REFERENCES `order` (`ID`),
-  ADD CONSTRAINT `contains_product` FOREIGN KEY (`PID`) REFERENCES `product` (`ID`);
+  ADD CONSTRAINT `contains_product_history` FOREIGN KEY (`PHID`) REFERENCES `product_history` (`ID`);
 
 --
 -- 資料表的限制式 `order`
@@ -216,6 +247,13 @@ ALTER TABLE `order`
 --
 ALTER TABLE `product`
   ADD CONSTRAINT `product_store` FOREIGN KEY (`SID`) REFERENCES `store` (`ID`);
+
+--
+-- 資料表的限制式 `product_history`
+--
+ALTER TABLE `product_history`
+  ADD CONSTRAINT `product_history_store` FOREIGN KEY (`SID`) REFERENCES `store` (`ID`),
+  ADD CONSTRAINT `product_original` FOREIGN KEY (`PID`) REFERENCES `product` (`ID`);
 
 --
 -- 資料表的限制式 `store`

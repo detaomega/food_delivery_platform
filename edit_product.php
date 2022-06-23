@@ -30,14 +30,26 @@
         $productPrice = $_POST["productPrice"];
         $productQuantity = $_POST["productQuantity"];
         if (!preg_match('/^\d+$/', $productPrice)) {
-            throw new Exception("the price show be none negative");
+            throw new Exception("the price should be none negative");
         }
         $ID = $_POST["ID"];
     //     // check quantity is none negative
         if (!preg_match('/^\d+$/', $productQuantity)) {
-            throw new Exception("the quantity show be none negative");
+            throw new Exception("the quantity should be none negative");
         }
 
+        $PID = $_POST["ID"];
+        $stmt = $conn -> prepare("select * from contains where PID = :PID");
+        $stmt -> execute(array("PID" => $PID));
+        while ($row = $stmt -> fetch()) {
+            $OID = $row["OID"];
+            $orderStmt = $conn -> prepare("select * from `order` where ID = :OID");
+            $orderStmt -> execute(array("OID" => $OID));
+            $orderInfo = $orderStmt -> fetch();
+            if ($orderInfo["status"] == "Not finish") {
+                throw new Exception("Please finish the order containing this product before modifying it.");
+            }
+        }
 
         $stmt = $conn->prepare("update product set price = :price, quantity = :quantity where product.ID = :ID");
         $stmt->execute(

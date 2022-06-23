@@ -70,7 +70,10 @@
                                 <td>$finish_time</td>
                                 <td>$shopName</td>
                                 <td>$payment</td>
-                                <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                                <form action="show_order_detail.php" method="post">
+                                    <input type="hidden" name="OID" value="$OID">
+                                    <td><button type="submit" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                                </form>
                                 
                         EOT;
                         if ($status == "Not finish") {
@@ -159,7 +162,10 @@
                             <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
-                            <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                            <form action="show_order_detail.php" method="post">
+                                <input type="hidden" name="OID" value="$OID">
+                                <td><button type="submit" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                            </form>
                             <td></td>
                             <td></td>
                         </tr>
@@ -232,7 +238,10 @@
                             <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
-                            <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                            <form action="show_order_detail.php" method="post">
+                                <input type="hidden" name="OID" value="$OID">
+                                <td><button type="submit" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                            </form>
                             <form action="calcel_user_order.php" method="post">
                                 <input type="hidden" name="OID" value="$OID">
                                 <td><button type="submit" class="btn btn-danger">Cancel</button></td>
@@ -310,7 +319,10 @@
                             <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
-                            <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                            <form action="show_order_detail.php" method="post">
+                                <input type="hidden" name="OID" value="$OID">
+                                <td><button type="submit" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                            </form>
 
                         </tr>
                     EOT;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2022 年 06 月 23 日 19:36
+-- 產生時間： 2022 年 06 月 23 日 20:20
 -- 伺服器版本： 10.4.21-MariaDB
 -- PHP 版本： 8.1.5
 
@@ -252,8 +252,7 @@ ALTER TABLE `product`
 -- 資料表的限制式 `product_history`
 --
 ALTER TABLE `product_history`
-  ADD CONSTRAINT `product_history_store` FOREIGN KEY (`SID`) REFERENCES `store` (`ID`),
-  ADD CONSTRAINT `product_original` FOREIGN KEY (`PID`) REFERENCES `product` (`ID`);
+  ADD CONSTRAINT `product_history_store` FOREIGN KEY (`SID`) REFERENCES `store` (`ID`);
 
 --
 -- 資料表的限制式 `store`

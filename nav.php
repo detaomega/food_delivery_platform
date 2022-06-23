@@ -58,7 +58,7 @@
       <li><a href="#menu1">shop</a></li>
       <li><a href="#myOrder">MyOrder</a></li>
       <li><a href="#shopOrder">Shop Order</a></li>
-      <li><a href="#record">Trasaction Record</a></li>
+      <li><a href="#record">Transaction Record</a></li>
 
 
     </ul>

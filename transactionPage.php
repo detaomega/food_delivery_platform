@@ -48,6 +48,7 @@
                         $price = $row['price'];
                         $UID = $row['UID'];
                         $TUID = $row['target_UID'];
+                        $is_refund = $row['is_refund'];
                         $stmt = $conn -> prepare("select name from store where UID=:TUID");
                         $stmt -> execute(array("TUID" => $TUID));
                         $shopInfo = $stmt->fetch();
@@ -66,15 +67,29 @@
                                 
                         EOT;
                         if ($type == "Payment") {
-                            echo <<< EOT
-                                <td>$shopName</td>
-                                <td>-$price</td>
-                            EOT;
+                            if ($is_refund) {
+                                echo <<< EOT
+                                    <td>$targetAccount</td>
+                                    <td>-$price</td>
+                                EOT;
+                            } else {
+                                echo <<< EOT
+                                    <td>$shopName</td>
+                                    <td>-$price</td>
+                                EOT;
+                            }
                         } else if ($type == "Takings"){
-                            echo <<< EOT
-                                <td>$targetAccount</td>
-                                <td>+$price</td>
-                            EOT;
+                            if ($is_refund) {
+                                echo <<< EOT
+                                    <td>$shopName</td>
+                                    <td>+$price</td>
+                                EOT;
+                            } else {
+                                echo <<< EOT
+                                    <td>$targetAccount</td>
+                                    <td>+$price</td>
+                                EOT;
+                            }
                         } else {
                             echo <<< EOT
                                 <td>$account</td>

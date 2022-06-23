@@ -56,14 +56,16 @@
         $newValue = $userInfo["wallet"] - $total;  
         $stmt = $conn -> prepare("update user set wallet =:value where user.ID=:ID");
         $stmt -> execute(array("value" => $newValue, "ID" => $UID));
-           
+        
         // add contains from OID and PID
         $stmt = $conn -> prepare("select * from product where SID=:SID");
         $stmt -> execute(array("SID" => $SID));
         $result = $stmt -> fetchAll();
         foreach ($result as &$row) {
             $ID = $row['ID'];
+            $quantity = $row["quantity"];
             $orderQuantity = $_POST["$ID"];
+            $quantity = $quantity - $orderQuantity;
             if ($orderQuantity == 0) {
                 continue;
             }
@@ -79,13 +81,17 @@
                     :number 
                 )"
             );
-            $stmt->execute(
+            $stmt -> execute(
                 array (
                     "OID" => $OID,
                     "PID" => $ID, 
                     "number" => $orderQuantity
                 )
             );
+
+            // update quantity of product
+            $stmt = $conn -> prepare("update product set quantity =:value where ID =:PID");
+            $stmt -> execute(array("value" => $quantity, "PID" => $ID));
         }         
         echo "<script>alert(\"success!!\"); window.location.replace(\"nav.php\");</script>";
     } 

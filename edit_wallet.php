@@ -4,6 +4,7 @@
     $dbname = "DB_HW"; 
     $dbusername = "dev"; 
     $dbpassword = "devpasswd";
+    date_default_timezone_set("Asia/Taipei");
 
     $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -19,7 +20,7 @@
 
         $value = $_POST["value"];
         $stTime = date("Y-m-d H:i:s");
-        if (!preg_match('/^[0-9]+$/', $_POST["value"])) {
+        if (!preg_match('/^[0-9]+$/', $_POST["value"]) || !($_POST["value"] > 0)) {
             throw new Exception("Please make sure the value is a positive integer.");
         }
         

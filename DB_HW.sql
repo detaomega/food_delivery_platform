@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2022 年 06 月 23 日 12:47
+-- 產生時間： 2022 年 06 月 23 日 15:44
 -- 伺服器版本： 10.4.21-MariaDB
 -- PHP 版本： 8.1.5
 
@@ -89,7 +89,8 @@ CREATE TABLE `transaction` (
   `price` int(10) UNSIGNED NOT NULL,
   `time` varchar(256) NOT NULL,
   `UID` int(10) UNSIGNED NOT NULL,
-  `target_UID` int(10) UNSIGNED NOT NULL
+  `target_UID` int(10) UNSIGNED NOT NULL,
+  `is_refund` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

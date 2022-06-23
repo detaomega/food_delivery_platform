@@ -4,7 +4,8 @@
     $dbname = "DB_HW"; 
     $dbusername = "dev"; 
     $dbpassword = "devpasswd";
-
+    date_default_timezone_set("Asia/Taipei");
+    
     $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 

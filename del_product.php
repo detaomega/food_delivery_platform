@@ -16,7 +16,7 @@
 
     try { 
         $PID = $_POST["ID"];
-        $stmt = $conn -> prepare("select * from contains where PID = :PID");
+        $stmt = $conn -> prepare("select * from contains, product_history where PHID = product_history.ID and PID = :PID");
         $stmt -> execute(array("PID" => $PID));
         while ($row = $stmt -> fetch()) {
             $OID = $row["OID"];

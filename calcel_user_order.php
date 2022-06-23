@@ -36,7 +36,11 @@
         $stmt = $conn -> prepare("select * from `contains` where OID=:OID");
         $stmt -> execute(array("OID" => $OID));
         while ($row = $stmt -> fetch()) {
-            $PID = $row["PID"];
+            $PHID = $row["PHID"];
+            $productStmt = $conn -> prepare("select * from `product_history` where ID=:PHID");
+            $productStmt -> execute(array("PHID" => $PHID));
+            $productInfo = $productStmt -> fetch();
+            $PID = $productInfo["PID"];
             $productStmt = $conn -> prepare("select * from `product` where ID=:PID");
             $productStmt -> execute(array("PID" => $PID));
             if ($productStmt -> rowCount() == 0) continue;

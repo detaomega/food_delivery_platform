@@ -82,6 +82,8 @@
                                     <td><button type="submit" class="btn btn-success">Finish</button></td>
                                 </form>
                             EOT;
+                        } else {
+                            echo "<td></td><td></td>";
                         }
                         echo <<< EOT
                             </tr>
@@ -153,6 +155,8 @@
                             <td>$shopName</td>
                             <td>$payment</td>
                             <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
+                            <td></td>
+                            <td></td>
                         </tr>
                     EOT;
                     $cnt++;

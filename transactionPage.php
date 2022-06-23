@@ -97,6 +97,7 @@
         <table class="table" style=" margin-top: 15px;">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Record ID</th>
                     <th scope="col">Action</th>
                     <th scope="col">Time</th>           
@@ -182,6 +183,7 @@
         <table class="table" style=" margin-top: 15px;">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Record ID</th>
                     <th scope="col">Action</th>
                     <th scope="col">Time</th>           
@@ -267,6 +269,7 @@
         <table class="table" style=" margin-top: 15px;">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Record ID</th>
                     <th scope="col">Action</th>
                     <th scope="col">Time</th>           

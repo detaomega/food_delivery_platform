@@ -12,6 +12,7 @@
         <table class="table" style=" margin-top: 15px;">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Order ID</th>
                     <th scope="col">Status</th>
                     <th scope="col">Start</th>           
@@ -56,6 +57,7 @@
                         echo <<< EOT
                             <tr>
                                 <th scope="row">$cnt</th>
+                                <td>$OID</td>
                                 <td>$status</td>
                                 <td>$start_time</td>
                                 <td>$end_time</td>
@@ -88,6 +90,7 @@
         <table class="table" style=" margin-top: 15px;">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Order ID</th>
                     <th scope="col">Status</th>
                     <th scope="col">Start</th>           
@@ -117,6 +120,7 @@
                 $result = $stmt -> fetchAll();
                 $cnt=1;
                 foreach ($result as &$row) {
+                    $OID = $row['ID'];
                     $status = $row['status'];
                     $start_time = $row['start_time'];
                     $finish_time = $row['finish_time'];
@@ -130,6 +134,7 @@
                     echo <<< EOT
                         <tr>
                             <th scope="row">$cnt</th>
+                            <td>$OID</td>
                             <td>$status</td>
                             <td>$start_time</td>
                             <td>$end_time</td>
@@ -150,6 +155,7 @@
         <table class="table" style=" margin-top: 15px;">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Order ID</th>
                     <th scope="col">Status</th>
                     <th scope="col">Start</th>           
@@ -179,6 +185,7 @@
                 $result = $stmt -> fetchAll();
                 $cnt=1;
                 foreach ($result as &$row) {
+                    $OID = $row['ID'];
                     $status = $row['status'];
                     $start_time = $row['start_time'];
                     $finish_time = $row['finish_time'];
@@ -192,6 +199,7 @@
                     echo <<< EOT
                         <tr>
                             <th scope="row">$cnt</th>
+                            <td>$OID</td>
                             <td>$status</td>
                             <td>$start_time</td>
                             <td>$end_time</td>
@@ -216,6 +224,7 @@
         <table class="table" style=" margin-top: 15px;">
             <thead>
                 <tr>
+                    <th scope="col">#</th>
                     <th scope="col">Order ID</th>
                     <th scope="col">Status</th>
                     <th scope="col">Start</th>           
@@ -245,6 +254,7 @@
                 $result = $stmt -> fetchAll();
                 $cnt=1;
                 foreach ($result as &$row) {
+                    $OID = $row['ID'];
                     $status = $row['status'];
                     $start_time = $row['start_time'];
                     $finish_time = $row['finish_time'];
@@ -257,6 +267,7 @@
                     echo <<< EOT
                         <tr>
                             <th scope="row">$cnt</th>
+                            <td>$OID</td>
                             <td>$status</td>
                             <td>$start_time</td>
                             <td>$end_time</td>

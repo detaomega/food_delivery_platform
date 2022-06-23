@@ -67,7 +67,7 @@
                                 <td>$OID</td>
                                 <td>$status</td>
                                 <td>$start_time</td>
-                                <td>$end_time</td>
+                                <td>$finish_time</td>
                                 <td>$shopName</td>
                                 <td>$payment</td>
                                 <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
@@ -156,7 +156,7 @@
                             <td>$OID</td>
                             <td>$status</td>
                             <td>$start_time</td>
-                            <td>$end_time</td>
+                            <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
                             <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
@@ -229,7 +229,7 @@
                             <td>$OID</td>
                             <td>$status</td>
                             <td>$start_time</td>
-                            <td>$end_time</td>
+                            <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
                             <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
@@ -307,7 +307,7 @@
                             <td>$OID</td>
                             <td>$status</td>
                             <td>$start_time</td>
-                            <td>$end_time</td>
+                            <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
                             <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>

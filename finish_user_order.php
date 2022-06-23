@@ -11,7 +11,16 @@
 
     try {
         $OID = $_POST["OID"];
-        echo "<script>alert(\"success!!\"); window.location.replace(\"nav.php\");</script>";
+        $stmt = $conn -> prepare("select * from `order` where ID=:OID");
+        $stmt -> execute(array("OID" => $OID));
+        $row = $stmt -> fetch();
+        if ($row["status"] != "Not finish") {
+            throw new Exception("The order is already finished or canceled.");
+        }
+
+        $stmt = $conn->prepare("update `order` set status = :status where ID = :OID");
+        $stmt->execute(array("status" => "Finished", "OID" => $OID));
+        echo "<script> window.location.replace(\"nav.php\");</script>";
     } 
     catch (Exception $e) {
         $msg = $e->getMessage();

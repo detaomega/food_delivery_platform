@@ -198,7 +198,10 @@
                             <td>$shopName</td>
                             <td>$payment</td>
                             <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
-                            <td><button type="submit" class="btn btn-danger">Cancel</button></td>
+                            <form action="calcel_user_order.php" method="post">
+                                <input type="hidden" name="OID" value="$OID">
+                                <td><button type="submit" class="btn btn-danger">Cancel</button></td>
+                            </form>
                         </tr>
                     EOT;
                     $cnt++;

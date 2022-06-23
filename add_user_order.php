@@ -81,29 +81,67 @@
             if ($orderQuantity == 0) {
                 continue;
             }
+
+            // update quantity of product
+            $stmt = $conn -> prepare("update product set quantity =:value where ID =:PID");
+            $stmt -> execute(array("value" => $quantity, "PID" => $ID));
+
+            // save to product_history
+            $stmt = $conn -> prepare("select * from product where ID =:PID");
+            $stmt -> execute(array("PID" => $ID));
+            $productInfo = $stmt -> fetch();
+            $stmt = $conn->prepare (
+                "insert into product_history (
+                    name, 
+                    image, 
+                    price, 
+                    quantity, 
+                    SID,
+                    PID,
+                    picture_type
+                ) 
+                values (
+                    :name, 
+                    :image, 
+                    :price, 
+                    :quantity, 
+                    :SID,
+                    :PID,
+                    :picture_type
+                )"
+            );
+            $stmt -> execute(
+                array (
+                    "name" => $productInfo["name"], 
+                    "image" => $productInfo["image"], 
+                    "price" => $productInfo["price"], 
+                    "quantity" => $productInfo["quantity"],
+                    "SID" => $productInfo["SID"],
+                    "PID" => $productInfo["ID"],
+                    "picture_type" => $productInfo["picture_type"]
+                )
+            );
+            $PHID = $conn->lastInsertId();
+
             $stmt = $conn -> prepare (
                 "insert into `contains` (
                     OID,
-                    PID,
+                    PHID,
                     number
                 ) 
                 values (
                     :OID,  
-                    :PID, 
+                    :PHID, 
                     :number 
                 )"
             );
             $stmt -> execute(
                 array (
                     "OID" => $OID,
-                    "PID" => $ID, 
+                    "PHID" => $PHID, 
                     "number" => $orderQuantity
                 )
             );
-
-            // update quantity of product
-            $stmt = $conn -> prepare("update product set quantity =:value where ID =:PID");
-            $stmt -> execute(array("value" => $quantity, "PID" => $ID));
         }         
         //transaction
         $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`, `target_UID`) VALUES (:type, :price, :time, :UID, :target_UID)");

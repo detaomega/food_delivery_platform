@@ -36,8 +36,8 @@
         $stmt = $conn->prepare("update user set wallet = :value where user.account = :account");
         $stmt->execute(array("value" => $value, "account" => $_SESSION["account"]));
 
-        $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`) VALUES (:type, :price, :time, :UID)");
-        $stmt->execute(array("type" => "Recharge", "price" => $_POST["value"], "time" => $stTime, "UID" => $UID));
+        $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`, `target_UID`) VALUES (:type, :price, :time, :UID, :target_UID)");
+        $stmt->execute(array("type" => "Recharge", "price" => $_POST["value"], "time" => $stTime, "UID" => $UID, "target_UID" => $UID));
         echo json_encode(array("error" => false, "text" => "success"));
     } catch (Exception $e) {
         $msg = $e->getMessage();

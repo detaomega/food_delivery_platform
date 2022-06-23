@@ -106,11 +106,11 @@
             $stmt -> execute(array("value" => $quantity, "PID" => $ID));
         }         
         //transaction
-        $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`) VALUES (:type, :price, :time, :UID)");
-        $stmt->execute(array("type" => "Payment", "price" => $total, "time" => $stTime, "UID" => $UID));
+        $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`, `target_UID`) VALUES (:type, :price, :time, :UID, :target_UID)");
+        $stmt->execute(array("type" => "Payment", "price" => $total, "time" => $stTime, "UID" => $UID, "target_UID" => $SUID));
 
-        $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`) VALUES (:type, :price, :time, :UID)");
-        $stmt->execute(array("type" => "Takings", "price" => $total, "time" => $stTime, "UID" => $SUID));
+        $stmt = $conn->prepare("insert into `transaction` (`type`, `price`, `time`, `UID`, `target_UID`) VALUES (:type, :price, :time, :UID, :target_UID)");
+        $stmt->execute(array("type" => "Takings", "price" => $total, "time" => $stTime, "UID" => $SUID, "target_UID" => $UID));
         echo "<script>alert(\"success!!\"); window.location.replace(\"nav.php\");</script>";
     } 
     catch (Exception $e) {

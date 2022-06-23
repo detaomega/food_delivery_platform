@@ -300,14 +300,12 @@
       
       </div>
       <div id="myOrder" class="tab-pane fade">
+        <?php include ("myOrderPage.php"); ?>
       </div>
       <div id="shopOrder" class="tab-pane fade">
       </div>
       <div id="record" class="tab-pane fade">
       </div>
-
-
-
     </div>
   </div>
 

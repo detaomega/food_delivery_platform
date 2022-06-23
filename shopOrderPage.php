@@ -1,13 +1,13 @@
-<label class="control-label col-sm-1" for="type">action</label>   
+<label class="control-label col-sm-1" for="type">Filter</label>   
 <div class="col-sm-4">
-    <select class="form-control" name="mode" id="slt1">
-        <option value="#tab_1">All</option>
-        <option value="#tab_2">Finished</option>
-        <option value="#tab_3">Not Finish</option>
-        <option value="#tab_4">Cancel</option>
+    <select class="form-control" name="mode" id="shop_slt1">
+        <option value="#shop_tab_1">All</option>
+        <option value="#shop_tab_2">Finished</option>
+        <option value="#shop_tab_3">Not Finish</option>
+        <option value="#shop_tab_4">Cancel</option>
     </select>
 </div>
-<div class="row" id="tab_1">
+<div class="row" id="shop_tab_1">
     <div class="col-xs-8">
         <table class="table" style=" margin-top: 15px;">
             <thead>
@@ -20,6 +20,7 @@
                     <th scope="col">Total Price</th>
                     <th scope="col">Order Details</th>
                     <th scope="col"> Action</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -76,6 +77,10 @@
                                     <input type="hidden" name="OID" value="$OID">
                                     <td><button type="submit" class="btn btn-danger">Cancel</button></td>
                                 </form>
+                                <form action="finish_user_order.php" method="post">
+                                    <input type="hidden" name="OID" value="$OID">
+                                    <td><button type="submit" class="btn btn-success">Finish</button></td>
+                                </form>
                             EOT;
                         }
                         echo <<< EOT
@@ -89,7 +94,7 @@
     </div>
 </div>
 
-<div class="row" id="tab_2">
+<div class="row" id="shop_tab_2">
     <div class="col-xs-8">
         <table class="table" style=" margin-top: 15px;">
             <thead>
@@ -102,6 +107,7 @@
                     <th scope="col">Total Price</th>
                     <th scope="col">Order Details</th>
                     <th scope="col"> Action</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <?php
@@ -123,8 +129,8 @@
                 $row = $stmt->fetch();
                 $SID = $row["ID"];
                 
-                $stmt = $conn -> prepare("select * from `order` where SID=:SID");
-                $stmt -> execute(array("SID" => $SID));
+                $stmt = $conn -> prepare("select * from `order` where status=:status and SID=:SID");
+                $stmt -> execute(array("status" => "Finished", "SID" => $SID));
                 $result = $stmt -> fetchAll();
                 $cnt=1;
                 foreach ($result as &$row) {
@@ -156,7 +162,7 @@
     </div>
 </div>
 
-<div class="row" id="tab_3">
+<div class="row" id="shop_tab_3">
     <div class="col-xs-8">
         <table class="table" style=" margin-top: 15px;">
             <thead>
@@ -169,6 +175,7 @@
                     <th scope="col">Total Price</th>
                     <th scope="col">Order Details</th>
                     <th scope="col"> Action</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <?php
@@ -190,8 +197,8 @@
                 $row = $stmt->fetch();
                 $SID = $row["ID"];
                 
-                $stmt = $conn -> prepare("select * from `order` where SID=:SID");
-                $stmt -> execute(array("SID" => $SID));
+                $stmt = $conn -> prepare("select * from `order` where status=:status and SID=:SID");
+                $stmt -> execute(array("status" => "Not finish", "SID" => $SID));
                 $result = $stmt -> fetchAll();
                 $cnt=1;
                 foreach ($result as &$row) {
@@ -214,7 +221,14 @@
                             <td>$shopName</td>
                             <td>$payment</td>
                             <td><button type="button" class="btn btn-info" data-toggle="modal">Order Details</button></td>
-                            <td><button type="submit" class="btn btn-danger">Cancel</button></td>
+                            <form action="calcel_user_order.php" method="post">
+                                <input type="hidden" name="OID" value="$OID">
+                                <td><button type="submit" class="btn btn-danger">Cancel</button></td>
+                            </form>
+                            <form action="finish_user_order.php" method="post">
+                                <input type="hidden" name="OID" value="$OID">
+                                <td><button type="submit" class="btn btn-success">Finish</button></td>
+                            </form>
                         </tr>
                     EOT;
                     $cnt++;
@@ -224,7 +238,7 @@
     </div>
 </div>
 
-<div class="row" id="tab_4">
+<div class="row" id="shop_tab_4">
     <div class="col-xs-8">
         <table class="table" style=" margin-top: 15px;">
             <thead>
@@ -237,6 +251,7 @@
                     <th scope="col">Total Price</th>
                     <th scope="col">Order Details</th>
                     <th scope="col"> Action</th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <?php
@@ -258,8 +273,8 @@
                 $row = $stmt->fetch();
                 $SID = $row["ID"];
                 
-                $stmt = $conn -> prepare("select * from `order` where SID=:SID");
-                $stmt -> execute(array("SID" => $SID));
+                $stmt = $conn -> prepare("select * from `order` where status=:status and SID=:SID");
+                $stmt -> execute(array("status" => "Cancel", "SID" => $SID));
                 $result = $stmt -> fetchAll();
                 $cnt=1;
                 foreach ($result as &$row) {
@@ -295,13 +310,13 @@
 
 <script>
     $(function() {
-        $('div[id^="tab_2"]').hide();
-        $('div[id^="tab_3"]').hide();
-        $('div[id^="tab_4"]').hide();
-        $('#slt1').change(function() {
+        $('div[id^="shop_tab_2"]').hide();
+        $('div[id^="shop_tab_3"]').hide();
+        $('div[id^="shop_tab_4"]').hide();
+        $('#shop_slt1').change(function() {
             let sltValue=$(this).val();
             console.log(sltValue);
-            $('div[id^="tab_"]').hide();
+            $('div[id^="shop_tab_"]').hide();
             $(sltValue).show();
         });  
     });

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- 主機： localhost
--- 產生時間： 2022 年 06 月 23 日 08:32
+-- 產生時間： 2022 年 06 月 23 日 12:47
 -- 伺服器版本： 10.4.21-MariaDB
 -- PHP 版本： 8.1.5
 
@@ -88,7 +88,8 @@ CREATE TABLE `transaction` (
   `type` varchar(256) NOT NULL,
   `price` int(10) UNSIGNED NOT NULL,
   `time` varchar(256) NOT NULL,
-  `UID` int(10) UNSIGNED NOT NULL
+  `UID` int(10) UNSIGNED NOT NULL,
+  `target_UID` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -148,7 +149,8 @@ ALTER TABLE `store`
 --
 ALTER TABLE `transaction`
   ADD PRIMARY KEY (`ID`),
-  ADD KEY `transaction_user` (`UID`);
+  ADD KEY `transaction_user` (`UID`),
+  ADD KEY `target_user` (`target_UID`);
 
 --
 -- 資料表索引 `user`
@@ -224,5 +226,6 @@ ALTER TABLE `store`
 -- 資料表的限制式 `transaction`
 --
 ALTER TABLE `transaction`
+  ADD CONSTRAINT `target_user` FOREIGN KEY (`target_UID`) REFERENCES `user` (`ID`),
   ADD CONSTRAINT `transaction_user` FOREIGN KEY (`UID`) REFERENCES `user` (`ID`);
 COMMIT;

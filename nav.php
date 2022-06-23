@@ -303,7 +303,7 @@
         <?php include ("myOrderPage.php"); ?>
       </div>
       <div id="shopOrder" class="tab-pane fade">
-      <?php include ("shopOrderPage.php"); ?>
+        <?php include ("shopOrderPage.php"); ?>
       </div>
       <div id="record" class="tab-pane fade">
       </div>

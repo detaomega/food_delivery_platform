@@ -470,7 +470,7 @@
 			});
       $("#registerBtn").click(function() {
         var showName = $("#shopName").val(), shopCategory = $("#shopCategory").val(), shopLatitude = $("#shopLatitude").val(), shopLongitude = $("#shopLongitude").val();
-        var userID = "<?php echo $row["ID"]; ?>", userPhone = "<?php echo $row["phone_number"]; ?>";
+        var userID = "<?php echo $UID; ?>", userPhone = "<?php echo $row["phone_number"]; ?>";
         data = {
           "shopName": showName,
           "shopCategory": shopCategory,

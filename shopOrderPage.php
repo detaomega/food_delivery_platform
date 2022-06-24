@@ -339,8 +339,14 @@
     $stmt -> execute(array("account" => $_SESSION["account"]));
     $row = $stmt->fetch();
     $UID = $row["ID"];
-    $stmt = $conn -> prepare("select * from `order` where UID=:UID");
+
+    $stmt = $conn -> prepare("select ID from store where UID=:UID");
     $stmt -> execute(array("UID" => $UID));
+    $row = $stmt->fetch();
+    $SID = $row["ID"];
+                    
+    $stmt = $conn -> prepare("select * from `order` where SID=:SID");
+    $stmt -> execute(array("SID" => $SID));
     while ($order = $stmt -> fetch()) {
         // product part
         $OID = $order["ID"];

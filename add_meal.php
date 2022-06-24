@@ -49,11 +49,11 @@
          
         $UID = $row["ID"];
 
-        $stmt = $conn -> prepare("select ID from store where UID=:UID");
+        $stmt = $conn -> prepare("select * from store where UID=:UID");
         $stmt -> execute(array("UID" => $UID));
         $row = $stmt -> fetch();
         $SID = $row["ID"];
-
+        $version = $row["version"];
        
         $file = fopen($_FILES["mealPicture"]["tmp_name"], "rb");
         // 讀入圖片檔資料
@@ -92,6 +92,15 @@
                 "quantity" => $mealQuantity,
                 "SID" => $SID,
                 "picture_type" => $imgType
+            )
+        );
+
+        $version = $version + 1;
+        $stmt = $conn->prepare("update store set version = :version where store.ID = :SID");
+        $stmt->execute(
+            array (
+                "version" => $version, 
+                "SID" => $SID, 
             )
         );
         header('Location: nav.php#menu1');

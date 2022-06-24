@@ -91,7 +91,8 @@ CREATE TABLE `store` (
   `position_latitude` double NOT NULL,
   `phone_number` char(10) NOT NULL,
   `category` varchar(256) NOT NULL,
-  `UID` int(11) UNSIGNED NOT NULL
+  `UID` int(11) UNSIGNED NOT NULL,
+  `version` int(11) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------

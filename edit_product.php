@@ -55,6 +55,12 @@
                 }
             }
         }
+        
+        $stmt = $conn -> prepare("select * from product where ID = :ID");
+        $stmt -> execute(array("ID" => $ID));
+        $productInfo = $stmt -> fetch();
+        $SID = $productInfo["SID"];
+        $oldPrice = $productInfo["price"];
 
         $stmt = $conn->prepare("update product set price = :price, quantity = :quantity where product.ID = :ID");
         $stmt->execute(
@@ -65,6 +71,21 @@
             )
         );
         
+        //update new version in store
+        if ($oldPrice != $productPrice) {
+            $stmt = $conn -> prepare("select version from store where ID=:SID");
+            $stmt -> execute(array("SID" => $SID));
+            $storeInfo = $stmt -> fetch();
+            $version = $storeInfo["version"];
+            $version = $version + 1;
+            $stmt = $conn->prepare("update store set version = :version where store.ID = :SID");
+            $stmt->execute(
+                array (
+                    "version" => $version, 
+                    "SID" => $SID, 
+                )
+            );
+        }
         echo "<script>alert(\"sucessful !!\"); window.location.replace(\"nav.php#menu1\");</script>";
 
 

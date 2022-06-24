@@ -47,7 +47,12 @@
             $orderStmt -> execute(array("OID" => $OID));
             $orderInfo = $orderStmt -> fetch();
             if ($orderInfo["status"] == "Not finish") {
-                throw new Exception("Please finish the order containing this product before modifying it.");
+                $productStmt = $conn -> prepare("select * from `product` where ID = :PID");
+                $productStmt -> execute(array("PID" => $PID));
+                $productInfo = $productStmt -> fetch();
+                if ($productPrice != $productInfo["price"]) {
+                    throw new Exception("Please finish the order containing this product before modifying its price.");
+                }
             }
         }
 

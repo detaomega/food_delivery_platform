@@ -27,9 +27,30 @@
                 throw new Exception("Please finish the order containing this product before deleting it.");
             }
         }
+        
+        $stmt = $conn -> prepare("select SID from product where ID = :PID");
+        $stmt -> execute(array("PID" => $PID));
+        $productInfo = $stmt -> fetch();
+        $SID = $productInfo["SID"];
 
+        // delete product
         $stmt = $conn -> prepare("delete from product where product.ID = :ID");
         $stmt -> execute(array("ID" => $PID));
+
+        //update new version in store
+        $stmt = $conn -> prepare("select version from store where ID=:SID");
+        $stmt -> execute(array("SID" => $SID));
+        $storeInfo = $stmt -> fetch();
+        $version = $storeInfo["version"];
+        $version = $version + 1;
+        $stmt = $conn->prepare("update store set version = :version where store.ID = :SID");
+        $stmt->execute(
+            array (
+                "version" => $version, 
+                "SID" => $SID, 
+            )
+        );
+
         echo "<script>alert(\"delete sucessful !!\"); window.location.replace(\"nav.php#menu1\");</script>";
 
     } 

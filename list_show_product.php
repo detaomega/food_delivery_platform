@@ -10,12 +10,17 @@
 
     $SID = $_POST["SID"];
 
+    $stmt = $conn -> prepare("select version from store where ID=:SID");
+    $stmt -> execute(array("SID" => $SID));
+    $storeInfo = $stmt -> fetch();
+    $version = $storeInfo["version"];
+    
     $stmt = $conn -> prepare("select * from product where SID=:SID");
     $stmt -> execute(array("SID" => $SID));
     $result = $stmt -> fetchAll();
     $distance = $_POST["distance"];
-    $cnt=1;
     $UID =$_POST["UID"];
+    $cnt = 1;
     echo <<< EOT
             <!-- Modal -->
             <div class="modal fade" id="shopList$SID"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -89,6 +94,7 @@
                             <input type="hidden" name="SID" value="$SID">
                             <input type="hidden" name="distance" value="$distance">
                             <input type="hidden" name="UID" value="$UID">
+                            <input type="hidden" name="version" value="$version">
                         </div>
                     </form>
                     </div>

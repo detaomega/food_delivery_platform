@@ -10,7 +10,35 @@
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     try {
-        // product part
+
+        // check wheather store has change the product.
+        $stmt = $conn -> prepare("select version from store where ID=:SID");
+        $stmt -> execute(array("SID" => $_POST["SID"]));
+        $storeInfo = $stmt -> fetch();
+        $version = $storeInfo["version"];
+        $oldversion = $_POST["version"];
+        if ($version != $oldversion) {
+            echo "<script>alert(\"該店家剛剛改變了他們的菜單哈哈\"); window.location.replace(\"nav.php\");</script>";
+            exit();
+        }
+
+        $stmt = $conn -> prepare("select * from product where SID=:SID");
+        $stmt -> execute(array("SID" => $_POST["SID"]));
+        $result = $stmt -> fetchAll();
+        foreach ($result as &$row) {
+            $ID = $row['ID'];
+            $quantity = $row["quantity"];
+            $orderQuantity = $_POST["$ID"];
+            $quantity = $quantity - $orderQuantity;
+            if ($orderQuantity == 0) {
+                continue;
+            }   
+            else if ($quantity < 0) {
+                echo "<script>alert(\"訂單數量大於商家提供範圍!!\"); window.location.replace(\"nav.php\");</script>";
+                exit();
+            }           
+        }
+
         $deliveryFee = $_POST["deliveryFee"];
         $total = $_POST["total"];
         $SID = $_POST["SID"];

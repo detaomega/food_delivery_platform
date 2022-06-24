@@ -11,6 +11,7 @@
     $SID = $_POST["SID"];
     $distance = $_POST["distance"];
     $mode = $_POST["mode"];
+    $oldversion = $_POST["version"];
     $stmt = $conn -> prepare("select * from product where SID=:SID");
     $stmt -> execute(array("SID" => $SID));
     $result = $stmt -> fetchAll();
@@ -21,7 +22,14 @@
         echo "<script>alert(\"該店家沒有商品\"); window.location.replace(\"nav.php\");</script>";
         exit();
     }
-
+    $stmt = $conn -> prepare("select version from store where ID=:SID");
+    $stmt -> execute(array("SID" => $SID));
+    $storeInfo = $stmt -> fetch();
+    $version = $storeInfo["version"];
+    if ($version != $oldversion) {
+        echo "<script>alert(\"該店家剛剛改變了他們的菜單哈哈\"); window.location.replace(\"nav.php\");</script>";
+        exit();
+    }
     // user part get wallet and check whether the total price bigger than user wallet
     $UID = $_POST["UID"];
     $stmt=$conn -> prepare("select wallet from user where ID=:ID");
@@ -34,6 +42,10 @@
         $orderQuantity = $_POST["$ID"];
         if ($orderQuantity == 0) {
             continue;
+        }
+        else if ($orderQuantity > $quantity) {
+            echo "<script>alert(\"訂單數量大於商家提供範圍!!\"); window.location.replace(\"nav.php\");</script>";
+            exit();
         }
         $cnt++;
     } 
@@ -107,7 +119,8 @@
                                     </tr>
         EOT;
         $cnt++;
-    }  
+    } 
+    // the place need to fixed. 
     $Total = $deliveryFee + $subTotal;
     if ($wallet < $Total) {
         echo "<script>alert(\"你的餘額不足\"); window.location.replace(\"nav.php\");</script>";
@@ -129,6 +142,7 @@
                         <input type="hidden" name="UID" value="$UID">
                         <input type="hidden" name="deliveryFee" value="$deliveryFee">
                         <input type="hidden" name="mode" value="$mode">
+                        <input type="hidden" name="version" value="$version">
                     </div>
                 </form>
             </div>

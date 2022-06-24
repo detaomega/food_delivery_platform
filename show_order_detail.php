@@ -52,10 +52,10 @@
                             <tbody>
     EOT;
     foreach ($result as &$row) {
-        $PID = $row['PID'];
+        $PHID = $row['PHID'];
         $number = $row['number'];
-        $stmt = $conn -> prepare("select * from product where ID=:PID");
-        $stmt -> execute(array("PID" => $PID));
+        $stmt = $conn -> prepare("select * from product_history where ID=:PHID");
+        $stmt -> execute(array("PHID" => $PHID));
         $product = $stmt -> fetch();
         $picture = $product["image"];
         $price = $product["price"];

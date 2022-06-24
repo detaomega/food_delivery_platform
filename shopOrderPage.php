@@ -1,3 +1,4 @@
+<div class="row   col-xs-8">
 <label class="control-label col-sm-1" for="type">Filter</label>   
 <div class="col-sm-4">
     <select class="form-control" name="mode" id="shop_slt1">
@@ -70,10 +71,7 @@
                                 <td>$finish_time</td>
                                 <td>$shopName</td>
                                 <td>$payment</td>
-                                <form action="show_order_detail.php" method="post">
-                                    <input type="hidden" name="OID" value="$OID">
-                                    <td><button type="submit" class="btn btn-info" data-toggle="modal">Order Details</button></td>
-                                </form>
+                                <td><button type="submit" class="btn btn-info" data-toggle="modal"  data-target="#shopOrder$OID">Order Details</button></td>
                                 
                         EOT;
                         if ($status == "Not finish") {
@@ -162,10 +160,7 @@
                             <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
-                            <form action="show_order_detail.php" method="post">
-                                <input type="hidden" name="OID" value="$OID">
-                                <td><button type="submit" class="btn btn-info" data-toggle="modal">Order Details</button></td>
-                            </form>
+                            <td><button type="submit" class="btn btn-info" data-toggle="modal"  data-target="#shopOrder$OID">Order Details</button></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -238,10 +233,7 @@
                             <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
-                            <form action="show_order_detail.php" method="post">
-                                <input type="hidden" name="OID" value="$OID">
-                                <td><button type="submit" class="btn btn-info" data-toggle="modal">Order Details</button></td>
-                            </form>
+                            <td><button type="submit" class="btn btn-info" data-toggle="modal"  data-target="#shopOrder$OID">Order Details</button></td>
                             <form action="calcel_user_order.php" method="post">
                                 <input type="hidden" name="OID" value="$OID">
                                 <td><button type="submit" class="btn btn-danger">Cancel</button></td>
@@ -319,10 +311,7 @@
                             <td>$finish_time</td>
                             <td>$shopName</td>
                             <td>$payment</td>
-                            <form action="show_order_detail.php" method="post">
-                                <input type="hidden" name="OID" value="$OID">
-                                <td><button type="submit" class="btn btn-info" data-toggle="modal">Order Details</button></td>
-                            </form>
+                            <td><button type="submit" class="btn btn-info" data-toggle="modal"  data-target="#shopOrder$OID">Order Details</button></td>
 
                         </tr>
                     EOT;
@@ -333,6 +322,105 @@
     </div>
 </div>
 
+
+
+<div class="row   col-xs-8" id="myOrderModal">
+<?php
+    session_start();
+    $dbservername = "localhost"; 
+    $dbname = "DB_HW"; 
+    $dbusername = "dev"; 
+    $dbpassword = "devpasswd";
+     
+    $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+     
+    $stmt = $conn -> prepare("select ID from user where account=:account");
+    $stmt -> execute(array("account" => $_SESSION["account"]));
+    $row = $stmt->fetch();
+    $UID = $row["ID"];
+    $stmt = $conn -> prepare("select * from `order` where UID=:UID");
+    $stmt -> execute(array("UID" => $UID));
+    while ($order = $stmt -> fetch()) {
+        // product part
+        $OID = $order["ID"];
+        $contain = $conn -> prepare("select * from contains where OID=:OID");
+        $contain -> execute(array("OID" => $OID));
+        $result = $contain -> fetchAll();
+
+        $orderstmt = $conn -> prepare("select * from `order` where ID=:OID");
+        $orderstmt -> execute(array("OID" => $OID));
+        $ORDER = $orderstmt -> fetch();
+        $distance = $ORDER["distance"];
+        $payment = $ORDER["payment"];
+        $cnt = 1;
+        echo <<< EOT
+            <div class="modal fade" id="shopOrder$OID"  data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Details</h4>
+                        </div>
+
+                        <div class="modal-body">
+                            <div class="row">
+                                <div class="  col-xs-12">
+                                    <table class="table" style=" margin-top: 15px;">
+                                        <thead>
+                                            <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Picture</th>                                 
+                                            <th scope="col">Meal Name</th>
+                                            <th scope="col">price</th>
+                                            <th scope="col">Order Quantity</th>
+                                            </tr>
+                                        </thead>
+                                    <tbody>
+            EOT;
+            foreach ($result as &$row) {
+                $PHID = $row['PHID'];
+                $number = $row['number'];
+                $phstmt = $conn -> prepare("select * from product_history where ID=:PHID");
+                $phstmt -> execute(array("PHID" => $PHID));
+                $product = $phstmt -> fetch();
+                $picture = $product["image"];
+                $price = $product["price"];
+                $picture_type = $product['picture_type'];
+                $img = $product["image"];
+                $name = $product["name"];
+                echo <<< EOT
+                                        <tr>
+                                            <th scope="row">$cnt</th>
+                                            <td><img style="max-width:50%; max-height:100px" src="data:$picture_type;base64,$picture"  alt="$name"/></td>
+                                            <td>$name</td>
+                                            <td>$price </td>
+                                            <td>$number</td>
+                                        </tr>
+                EOT;
+                $cnt++;
+            }  
+            $subTotal = $payment - $distance;
+            echo <<< EOT
+                                    </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div> 
+                        <div class="modal-footer">
+                            <div><label>Subtotal $$subTotal</label></div>  
+                            <div><label>Delivery Fee $$distance</label></div>  
+                            <div><label>Total Price $$payment</label></div>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        EOT;
+    }
+?> 
+
+</div>
+</div>
 
 
 <script>

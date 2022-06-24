@@ -45,7 +45,6 @@
             throw new Exception("The shop name has been used.");
         }
         
-
         // insert the data in the sho[]
         $stmt = $conn->prepare (
                                 "insert into store (
@@ -54,7 +53,8 @@
                                     position_latitude, 
                                     phone_number, 
                                     category, 
-                                    UID
+                                    UID,
+                                    version
                                 ) 
                                 values (
                                     :shopName, 
@@ -62,10 +62,22 @@
                                     :position_latitude, 
                                     :phone_number, 
                                     :category, 
-                                    :UID
+                                    :UID,
+                                    :version
                                 )"
                             );
-        $stmt = $stmt->execute(array("shopName" => $shopName, "position_longitude" => $shopLongitude, "position_latitude" => $shopLatitude, "phone_number" => $userPhone, "category" => $shopCategory, "UID" => $userID));
+        $version = 0;
+        $stmt = $stmt->execute(
+            array(
+                "shopName" => $shopName, 
+                "position_longitude" => $shopLongitude, 
+                "position_latitude" => $shopLatitude, 
+                "phone_number" => $userPhone, 
+                "category" => $shopCategory, 
+                "UID" => $userID,
+                "version" => $version
+            )
+        );
   
 
         $stmt = $conn->prepare("update user set status = :status where user.ID = :ID");

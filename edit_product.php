@@ -19,8 +19,8 @@
         $emptyField = "";
         
         
-        if (empty($_POST["productPrice"])) $emptyField = $emptyField . "product price, ";
-        if (empty($_POST["productQuantity"])) $emptyField = $emptyField . "product quantity, ";
+        if (empty($_POST["productPrice"]) && $_POST["productPrice"] == "") $emptyField = $emptyField . "product price, ";
+        if (empty($_POST["productQuantity"]) && $_POST["productQuantity"] == "") $emptyField = $emptyField . "product quantity, ";
         
         if (!empty($emptyField)) {
             $emptyField = substr($emptyField, 0, strlen($emptyField) - 2) . " ";

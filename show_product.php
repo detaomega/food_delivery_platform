@@ -1,3 +1,10 @@
+<?php 
+  if (!isset($_SESSION['Authenticated']) || $_SESSION['Authenticated'] != true) {
+    header("Location: index.php");
+    exit();
+  }
+?>
+
 <div class="row">
   <div class="  col-xs-8">
     <table class="table" style=" margin-top: 15px;">

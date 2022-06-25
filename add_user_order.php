@@ -5,6 +5,10 @@
     $dbusername = "dev"; 
     $dbpassword = "devpasswd";
     date_default_timezone_set("Asia/Taipei");
+    if (!isset($_SESSION['Authenticated']) || $_SESSION['Authenticated'] != true) {
+        header("Location: index.php");
+        exit();
+    }
     
     $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

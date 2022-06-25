@@ -5,6 +5,11 @@
     $dbusername = "dev";
     $dbpassword = "devpasswd";//make sure permission is correctly set on phpmyadmin
 
+    if (!isset($_SESSION['Authenticated']) || $_SESSION['Authenticated'] != true) {
+        header("Location: index.php");
+        exit();
+    }
+
     try {
         if (!isset($_POST["input"])) throw new Exception("Input is not set.");
 

@@ -22,6 +22,10 @@
     $dbname = "DB_HW"; 
     $dbusername = "dev"; 
     $dbpassword = "devpasswd";
+    if (!isset($_SESSION['Authenticated']) || $_SESSION['Authenticated'] != true) {
+        header("Location: index.php");
+        exit();
+    }
 
     $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

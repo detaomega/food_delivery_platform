@@ -1,3 +1,10 @@
+<?php 
+    if (!isset($_SESSION['Authenticated']) || $_SESSION['Authenticated'] != true) {
+        header("Location: index.php");
+        exit();
+    }
+?>
+
 <label class="control-label col-sm-1" for="type">Filter</label>   
 <div class="col-sm-4">
     <select class="form-control" name="mode" id="transaction_slt1">

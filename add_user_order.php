@@ -53,6 +53,16 @@
         $stmt->execute(array("SID" => $SID));
         $row = $stmt->fetch();
         $SUID = $row["UID"];
+
+        $stmt = $conn -> prepare("select wallet from user where ID=:ID");
+        $stmt -> execute(array("ID" => $UID));
+        $userInfo = $stmt -> fetch();
+        $newValue = $userInfo["wallet"] - $total;
+        if ($newValue < 0) {
+            echo "<script>alert(\"你的餘額不足\"); window.location.replace(\"nav.php\");</script>";
+            exit();
+        }
+
         $stmt = $conn->prepare (
             "insert into `order` (
                 status, 

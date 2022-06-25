@@ -6,7 +6,7 @@
 ?>
 
 <div class="row   col-xs-8">
-<label class="control-label col-sm-1" for="type">action</label>   
+<label class="control-label col-sm-1" for="type">Filter</label>   
 <div class="col-sm-4">
     <select class="form-control" name="mode" id="slt1">
         <option value="#tab_1">All</option>

@@ -29,20 +29,25 @@
         $stmt = $conn -> prepare("select * from product where SID=:SID");
         $stmt -> execute(array("SID" => $_POST["SID"]));
         $result = $stmt -> fetchAll();
+        $errorMessage = "";
         foreach ($result as &$row) {
             $ID = $row['ID'];
             $quantity = $row["quantity"];
             $orderQuantity = $_POST["$ID"];
-            $quantity = $quantity - $orderQuantity;
+            $name = $_POST["name"];
             if ($orderQuantity == 0) {
                 continue;
             }   
-            else if ($quantity < 0) {
-                echo "<script>alert(\"訂單數量大於商家提供範圍!!\"); window.location.replace(\"nav.php\");</script>";
-                exit();
+            else if ($quantity < $orderQuantity) {
+                $errorMessage = $errorMessage . $name;
             }           
+            echo "<script>alert(\"$quantity 這些商品存貨不足\");</script>";
         }
-
+        echo "<script>alert(\"$errorMessage 這些商品存貨不足\");</script>";
+        if ($errorMessage != "") {
+            echo "<script>alert(\"$errorMessage 這些商品存貨不足\"); window.location.replace(\"nav.php\");</script>";
+            exit();
+        }
         $deliveryFee = $_POST["deliveryFee"];
         $total = $_POST["total"];
         $SID = $_POST["SID"];

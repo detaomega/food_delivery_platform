@@ -41,19 +41,24 @@
     $stmt -> execute(array("ID" => $UID));
     $userInfo = $stmt -> fetch();
     $wallet = $userInfo["wallet"];
+    $errorMessage = "";
     foreach ($result as &$row) {
         $ID = $row['ID'];
         $quantity = $row['quantity'];
         $orderQuantity = $_POST["$ID"];
+        $name = $row['name'];
         if ($orderQuantity == 0) {
             continue;
         }
         else if ($orderQuantity > $quantity) {
-            echo "<script>alert(\"訂單數量大於商家提供範圍!!\"); window.location.replace(\"nav.php\");</script>";
-            exit();
+            $errorMessage = $errorMessage . $name;
         }
         $cnt++;
     } 
+    if ($errorMessage != "") {
+        echo "<script>alert(\"$errorMessage 這些商品存貨不足\"); window.location.replace(\"nav.php\");</script>";
+        exit();
+    }
     if ($cnt == 1) {
         echo "<script>alert(\"你的訂單是空的!!\"); window.location.replace(\"nav.php\");</script>";
         exit();

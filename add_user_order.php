@@ -41,9 +41,7 @@
             else if ($quantity < $orderQuantity) {
                 $errorMessage = $errorMessage . $name;
             }           
-            echo "<script>alert(\"$quantity 這些商品存貨不足\");</script>";
         }
-        echo "<script>alert(\"$errorMessage 這些商品存貨不足\");</script>";
         if ($errorMessage != "") {
             echo "<script>alert(\"$errorMessage 這些商品存貨不足\"); window.location.replace(\"nav.php\");</script>";
             exit();

@@ -3,6 +3,25 @@
         header("Location: index.php");
         exit();
     }
+    session_start();
+    $dbservername = "localhost"; 
+    $dbname = "DB_HW"; 
+    $dbusername = "dev"; 
+    $dbpassword = "devpasswd";
+    
+    $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
+    $stmt = $conn -> prepare("select ID from user where account=:account");
+    $stmt -> execute(array("account" => $_SESSION["account"]));
+    $row = $stmt->fetch();
+    $UID = $row["ID"];
+
+    $stmt = $conn -> prepare("select ID from store where UID=:UID");
+    $stmt -> execute(array("UID" => $UID));
+    $row = $stmt->fetch();
+    $SID = $row["ID"];
+    
 ?>
 
 <div class="row   col-xs-8">
@@ -14,12 +33,19 @@
         <option value="#shop_tab_3">Not Finish</option>
         <option value="#shop_tab_4">Cancel</option>
     </select>
+    <tr></tr>
+    <tr></tr>
+    <form action="select_shop_order.php" method="get" id="form1">
+        <button type="submit" class="btn btn-success" data-toggle="modal" id="form1" name="buttonValue" value="finish">Finish</button>
+        <button type="submit" class="btn btn-danger" data-toggle="modal" id="form1" name="buttonValue" value="cancel">Cancel</button>
+    </form>
 </div>
 <div class="row" id="shop_tab_1">
     <div class="col-xs-8">
         <table class="table" style=" margin-top: 15px;">
             <thead>
-                <tr>
+                <tr> 
+                    <th scope="col"> </th>
                     <th scope="col">#</th>
                     <th scope="col">Order ID</th>
                     <th scope="col">Status</th>
@@ -57,6 +83,9 @@
                     $stmt -> execute(array("SID" => $SID));
                     $result = $stmt -> fetchAll();
                     $cnt=1;
+                    echo <<< EOT
+                        <input type="hidden" name="SID" value="$SID" form="form1">
+                    EOT;
                     foreach ($result as &$row) {
                         $OID = $row['ID'];
                         $status = $row['status'];
@@ -68,9 +97,23 @@
                         $stmt -> execute(array("SID" => $SID));
                         $shopInfo = $stmt -> fetch();
                         $shopName = $shopInfo['name'];
-
-                        echo <<< EOT
+                         
+                        if ($status == "Not finish") {
+                            echo <<< EOT
                             <tr>
+                                <td><input type="checkbox" name="$OID" value="yes" form="form1"></td>
+                                
+                            EOT;
+                        }
+                        else {
+                            echo <<< EOT
+                            <tr>
+                                <td></td>
+                            EOT;
+                        }
+                    
+                        echo <<< EOT
+                            
                                 <th scope="row">$cnt</th>
                                 <td>$OID</td>
                                 <td>$status</td>
@@ -230,9 +273,9 @@
                     $stmt -> execute(array("SID" => $SID));
                     $shopInfo = $stmt -> fetch();
                     $shopName = $shopInfo['name'];
-
                     echo <<< EOT
                         <tr>
+                            <td><input type="checkbox" name="$OID" value="yes" form="form1"></td>
                             <th scope="row">$cnt</th>
                             <td>$OID</td>
                             <td>$status</td>

@@ -25,7 +25,7 @@
 
         $stmt = $conn->prepare("update `order` set status = :status, finish_time = :time where ID = :OID");
         $stmt->execute(array("status" => "Finished", "time" => $stTime, "OID" => $OID));
-        echo "<script> window.location.replace(\"nav.php\");</script>";
+        echo "<script>alert(\"finish order!!\"); window.location.replace(\"nav.php\");</script>";
     } 
     catch (Exception $e) {
         $msg = $e->getMessage();

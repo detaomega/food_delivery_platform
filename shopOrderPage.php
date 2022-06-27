@@ -27,6 +27,7 @@
 <div class="row   col-xs-8">
 <label class="control-label col-sm-1" for="type">Filter</label>   
 <div class="col-sm-4">
+    <form action="select_shop_order.php" method="get" id="form1">   
     <select class="form-control" name="mode" id="shop_slt1">
         <option value="#shop_tab_1">All</option>
         <option value="#shop_tab_2">Finished</option>
@@ -35,7 +36,6 @@
     </select>
     <tr></tr>
     <tr></tr>
-    <form action="select_shop_order.php" method="get" id="form1">
         <button type="submit" class="btn btn-success" data-toggle="modal" id="form1" name="buttonValue" value="finish">Finish</button>
         <button type="submit" class="btn btn-danger" data-toggle="modal" id="form1" name="buttonValue" value="cancel">Cancel</button>
     </form>
@@ -101,7 +101,7 @@
                         if ($status == "Not finish") {
                             echo <<< EOT
                             <tr>
-                                <td><input type="checkbox" name="$OID" value="yes" form="form1"></td>
+                                <td><input type="checkbox" name="first$OID" value="yes" form="form1"></td>
                                 
                             EOT;
                         }
@@ -275,7 +275,7 @@
                     $shopName = $shopInfo['name'];
                     echo <<< EOT
                         <tr>
-                            <td><input type="checkbox" name="$OID" value="yes" form="form1"></td>
+                            <td><input type="checkbox" name="second$OID" value="yes" form="form1"></td>
                             <th scope="row">$cnt</th>
                             <td>$OID</td>
                             <td>$status</td>

@@ -12,8 +12,20 @@
 
     $conn = new PDO("mysql:host=$dbservername;dbname=$dbname", $dbusername, $dbpassword);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+    $mode = $_GET["mode"];
     try {
+        $prefix = "";
+        if ($mode == "#shop_tab_1") {
+            $prefix = "first";
+            
+        }
+        else if ($mode == "#shop_tab_3") {
+            $prefix = "second";
+        }
+        else {
+            echo "<script>alert(\"you don't selected any order.\"); window.location.replace(\"nav.php\");</script>";
+            exit();
+        }
         $SID = $_GET["SID"];
         $stmt = $conn -> prepare("select * from `order` where SID=:SID");
         $stmt -> execute(array("SID" => $SID));
@@ -25,7 +37,7 @@
         if ($type == "finish") {
             foreach ($result as &$row) {
                 $OID = $row['ID'];
-                if ($_GET["$OID"] != "yes") {
+                if ($_GET["$prefix$OID"] != "yes") {
                     continue;
                 }
                 $stTime = date("Y-m-d H:i:s");
@@ -47,7 +59,7 @@
             foreach ($result as &$rowOrder) {
                 $OID = $rowOrder['ID'];
                 
-                if ($_GET["$OID"] != "yes") {
+                if ($_GET["$prefix$OID"] != "yes") {
                     continue;
                 }
                 $stTime = date("Y-m-d H:i:s");

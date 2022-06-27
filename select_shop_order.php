@@ -119,7 +119,8 @@
             exit();
         }
         else if ($cnt != 1) {
-            echo "<script>alert(\"Cancel selected order\"); window.location.replace(\"nav.php\");</script>";
+            if ($type == "finish") echo "<script>alert(\"Finish selected orders\"); window.location.replace(\"nav.php\");</script>";
+            else echo "<script>alert(\"Cancel selected orders\"); window.location.replace(\"nav.php\");</script>";
             exit();
         }
         else {

@@ -119,7 +119,7 @@
             exit();
         }
         else if ($cnt != 1) {
-            echo "<script>alert(\"Cancel selected order\"); window.location.replace(\"nav.php\");</script>";
+            echo "<script>alert(\"Cancel selected orders\"); window.location.replace(\"nav.php\");</script>";
             exit();
         }
         else {

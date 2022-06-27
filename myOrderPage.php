@@ -14,6 +14,11 @@
         <option value="#tab_3">Not Finish</option>
         <option value="#tab_4">Cancel</option>
     </select>
+    <tr></tr>
+    <tr></tr>
+    <form action="select_my_order.php" method="get" id="form2">
+        <button type="submit" class="btn btn-danger" data-toggle="modal" id="form2" name="buttonValue" value="cancel">Cancel</button>
+    </form>
 </div>
 <div class="row" id="tab_1">
     <div class="col-xs-8">
@@ -50,6 +55,9 @@
                     $stmt -> execute(array("UID" => $UID));
                     $result = $stmt -> fetchAll();
                     $cnt=1;
+                    echo <<< EOT
+                        <input type="hidden" name="UID" value="$UID" form="form2">
+                    EOT;
                     foreach ($result as &$row) {
                         $OID = $row['ID'];
                         $status = $row['status'];
@@ -61,9 +69,21 @@
                         $stmt -> execute(array("SID" => $SID));
                         $shopInfo = $stmt -> fetch();
                         $shopName = $shopInfo['name'];
-
-                        echo <<< EOT
+                        if ($status == "Not finish") {
+                            echo <<< EOT
                             <tr>
+                                <td><input type="checkbox" name="$OID" value="yes" form="form2"></td>
+                                
+                            EOT;
+                        }
+                        else {
+                            echo <<< EOT
+                            <tr>
+                                <td></td>
+                            EOT;
+                        }
+                    
+                        echo <<< EOT
                                 <th scope="row">$cnt</th>
                                 <td>$OID</td>
                                 <td>$status</td>
@@ -206,6 +226,7 @@
 
                     echo <<< EOT
                         <tr>
+                            <td><input type="checkbox" name="$OID" value="yes" form="form2"></td>
                             <th scope="row">$cnt</th>
                             <td>$OID</td>
                             <td>$status</td>

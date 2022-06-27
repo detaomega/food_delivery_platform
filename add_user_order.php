@@ -22,7 +22,7 @@
         $version = $storeInfo["version"];
         $oldversion = $_POST["version"];
         if ($version != $oldversion) {
-            echo "<script>alert(\"該店家剛剛改變了他們的菜單哈哈\"); window.location.replace(\"nav.php\");</script>";
+            echo "<script>alert(\"該店家剛剛改變了他們的菜單\"); window.location.replace(\"nav.php\");</script>";
             exit();
         }
 
@@ -30,19 +30,21 @@
         $stmt -> execute(array("SID" => $_POST["SID"]));
         $result = $stmt -> fetchAll();
         $errorMessage = "";
+        $hasError = false;
         foreach ($result as &$row) {
             $ID = $row['ID'];
             $quantity = $row["quantity"];
             $orderQuantity = $_POST["$ID"];
-            $name = $_POST["name"];
+            $name = $row["name"];
             if ($orderQuantity == 0) {
                 continue;
             }   
             else if ($quantity < $orderQuantity) {
-                $errorMessage = $errorMessage . $name;
+                $hasError = true;
+                $errorMessage = $errorMessage . $name . ", ";
             }           
         }
-        if ($errorMessage != "") {
+        if ($hasError) {
             echo "<script>alert(\"$errorMessage 這些商品存貨不足\"); window.location.replace(\"nav.php\");</script>";
             exit();
         }

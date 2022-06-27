@@ -32,7 +32,7 @@
     $storeInfo = $stmt -> fetch();
     $version = $storeInfo["version"];
     if ($version != $oldversion) {
-        echo "<script>alert(\"該店家剛剛改變了他們的菜單哈哈\"); window.location.replace(\"nav.php\");</script>";
+        echo "<script>alert(\"該店家剛剛改變了他們的菜單\"); window.location.replace(\"nav.php\");</script>";
         exit();
     }
     // user part get wallet and check whether the total price bigger than user wallet
@@ -42,6 +42,7 @@
     $userInfo = $stmt -> fetch();
     $wallet = $userInfo["wallet"];
     $errorMessage = "";
+    $hasError = false;
     foreach ($result as &$row) {
         $ID = $row['ID'];
         $quantity = $row['quantity'];
@@ -51,11 +52,12 @@
             continue;
         }
         else if ($orderQuantity > $quantity) {
-            $errorMessage = $errorMessage . $name;
+            $hasError = true;
+            $errorMessage = $errorMessage . $name . ", ";
         }
         $cnt++;
     } 
-    if ($errorMessage != "") {
+    if ($hasError) {
         echo "<script>alert(\"$errorMessage 這些商品存貨不足\"); window.location.replace(\"nav.php\");</script>";
         exit();
     }
